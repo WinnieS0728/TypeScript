@@ -17,37 +17,16 @@ function App() {
   return (
     <Suspense fallback={<h1>那你網路很慢欸</h1>}>
       <Routes>
-        <Route path=''>
-          <Route
-            index
-            element={<CustomRatePage />}
-          />
-          <Route
-            path='edit'
-            element={<EditPage />}
-          >
-            <Route
-              path='tx'
-              element={<h1>tx</h1>}
-            />
-            <Route
-              path='threshold'
-              element={<h1>threshold</h1>}
-            />
-            <Route
-              path='store'
-              element={<h1>store</h1>}
-            />
-            <Route
-              path='osom'
-              element={<h1>osom</h1>}
-            />
+        <Route path="">
+          <Route index element={<CustomRatePage />} />
+          <Route path="edit" element={<EditPage />}>
+            <Route path="tx" element={<h1>tx</h1>} />
+            <Route path="threshold" element={<h1>threshold</h1>} />
+            <Route path="store" element={<h1>store</h1>} />
+            <Route path="osom" element={<h1>osom</h1>} />
           </Route>
         </Route>
-        <Route
-          path='*'
-          element={<h1>欸不是啊怎麼沒有這頁R</h1>}
-        />
+        <Route path="*" element={<h1>欸不是啊怎麼沒有這頁R</h1>} />
       </Routes>
     </Suspense>
   );

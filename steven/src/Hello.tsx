@@ -123,9 +123,38 @@ const Hello = () => {
   print<string>("hello"); //各種不同類型
   print<number>(123);
   print<boolean>(true);
-//--------------untilities----------------
+  //--------------untilities----------------
 
+  interface CatInfo {
+    age: number;
+    breed: string;
+  }
+  type CatName = "miffy" | "boris" | "mordred";
 
+  //key,value
+  const cats: Record<CatName, CatInfo> = {
+    miffy: { age: 10, breed: "Persian" },
+    boris: { age: 5, breed: "Maine Coon" },
+    mordred: { age: 16, breed: "British Shorthair" },
+  };
+  const objI: Record<string, boolean> = {
+    name: true,
+    //age:12 --->error
+  };
+
+  interface Todo {
+    title: string;
+    description: string;
+    completed: boolean;
+  }
+  //需要重複共用
+  type TodoPreview = Pick<Todo, "title" | "completed">;
+
+  const todo: TodoPreview = {
+    title: "Clean room",
+    completed: false,
+  };
+  //不須重複共用Omit
   //引數預設值
   const buildName = (firstName: string, lastName: string = "cat"): string => {
     return firstName + " " + lastName;
