@@ -22,6 +22,7 @@ export default defineConfig({
       "@hooks": resolve("src/hooks"),
       "@layouts": resolve("src/layouts"),
       "@buttons": resolve("src/components/UI/buttons"),
+      "@img": resolve("src/assets/images"),
       "types": resolve("src/types"),
     },
   },

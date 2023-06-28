@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { styled } from "styled-components";
 
 interface propsType {
@@ -10,7 +10,7 @@ const Nav = ({ className }: propsType) => {
     <>
       <nav className={className}>
         <div className='container-fluid'>
-          <ul className='row p-2 gap-2'>
+          <ul className='row p-2 gap-2 m-0'>
             <NavLink
               end
               to={"tx"}
@@ -42,7 +42,6 @@ const Nav = ({ className }: propsType) => {
           </ul>
         </div>
       </nav>
-      <Outlet />
     </>
   );
 };

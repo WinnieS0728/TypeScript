@@ -10,12 +10,12 @@ const Table = ({ className, title, children, filter }: PropType) => {
   return (
     <div className={className}>
       {title && (
-        <div className="header">
+        <div className='header'>
           {title}
           {filter}
         </div>
       )}
-      <div className="table-wrapper">{children}</div>
+      <div className='table-wrapper'>{children}</div>
     </div>
   );
 };

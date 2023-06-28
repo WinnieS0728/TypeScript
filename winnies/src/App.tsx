@@ -6,6 +6,7 @@ import { setSalesList } from "@actions/member/setSalesList";
 
 const CustomRatePage = lazy(() => import("@pages/custom rate"));
 const EditPage = lazy(() => import("@pages/edit/edit"));
+const Coming = lazy(() => import("@layouts/coming"));
 
 function App() {
   const dispatch = useAppDispatch();
@@ -28,7 +29,7 @@ function App() {
           >
             <Route
               path='tx'
-              element={<h1>tx</h1>}
+              element={<Coming />}
             />
             <Route
               path='threshold'
@@ -36,11 +37,11 @@ function App() {
             />
             <Route
               path='store'
-              element={<h1>store</h1>}
+              element={<Coming />}
             />
             <Route
               path='osom'
-              element={<h1>osom</h1>}
+              element={<Coming />}
             />
           </Route>
         </Route>

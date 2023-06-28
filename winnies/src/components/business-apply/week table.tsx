@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { Table } from "@components/table/table";
-import { getWeek, isValid } from "date-fns";
-import { useState } from "react";
+import { getWeek, isSunday, isValid } from "date-fns";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { DayPicker } from "react-day-picker";
 import { useTheme } from "styled-components";
 import { timeDay, timeMonday, timeSunday } from "d3-time";
@@ -14,10 +14,11 @@ export const WeekTable = () => {
   const timeData = useAppSelector((state) => state.time);
   const color = useTheme();
   const [value, setValue] = useState<string>("");
+  const [selected, setSelected] = useState<Date>(new Date(timeData.today));
+  const [firstTime, setFirstTime] = useState<boolean>(true);
 
   const Filter = () => {
-    const [selected, setSelected] = useState<Date>(new Date(timeData.today));
-    const [month, setMonth] = useState<Date>(new Date(timeData.today));
+    const [month, setMonth] = useState<Date>();
     const [isShow, setShow] = useState<boolean>(false);
     const dispatch = useAppDispatch();
 
@@ -50,18 +51,53 @@ export const WeekTable = () => {
       return timeFormat("%Y-%m-%d")(inputDate);
     }
 
-    function handleSelected(d: Date | undefined) {
-      if (!isValid(d)) return;
-      setSelected(d as Date);
-      const prevMonday = getTime(timeMonday(d));
-      const s = timeSunday(d);
-      const nextSunday = getTime(timeDay.offset(s, 7));
-      const week = getWeek(d as Date);
+    interface dateInfo {
+      monday: string;
+      sunday: string;
+      week: number;
+    }
 
-      const value = `${prevMonday} - ${nextSunday} (w${week})`;
+    const getDateInfo = useCallback((d: Date): dateInfo => {
+      const prevMonday = getTime(timeMonday(d));
+
+      let nextSunday;
+      let week;
+      if (isSunday(d as Date)) {
+        nextSunday = getTime(d as Date);
+        week = getWeek(d as Date) - 1;
+      } else {
+        const s = timeSunday(d);
+        nextSunday = getTime(timeDay.offset(s, 7));
+        week = getWeek(d as Date);
+      }
+
+      return {
+        monday: prevMonday,
+        sunday: nextSunday,
+        week: week,
+      };
+    }, []);
+
+    useEffect(() => {
+      const m = getDateInfo(selected).monday;
+      const s = getDateInfo(selected).sunday;
+      const w = getDateInfo(selected).week;
+
+      const value = `${m} - ${s} (w${w})`;
       setValue(value);
 
-      dispatch(setWeekVisitData(prevMonday));
+      if (firstTime === true) {
+        dispatch(setWeekVisitData(m));
+        setFirstTime(false);
+      }
+    }, [dispatch, getDateInfo]);
+
+    function handleSelected(d: Date | undefined) {
+      if (!isValid(d)) return;
+      // console.log(d);
+      setSelected(d as Date);
+      const m = getDateInfo(d as Date).monday;
+      dispatch(setWeekVisitData(m));
     }
 
     return (
@@ -122,7 +158,7 @@ export const WeekTable = () => {
   };
 
   const visitData = GetData();
-  console.log(visitData);
+  // console.log(visitData);
 
   function getNumber(name: string, key: string): number {
     const num = visitData.find((d) => d.name === name)?.visitData[key];
@@ -151,7 +187,7 @@ export const WeekTable = () => {
             <td>ATU 店家數</td>
             <td>輪胎店 店家數</td>
             <td>比例 %</td>
-            <td>輪胎店店家數</td>
+            <td>輪胎店 店家數</td>
             <td>比例 %</td>
           </tr>
         </thead>
