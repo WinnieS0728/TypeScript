@@ -124,7 +124,7 @@ const Hello = () => {
   print<number>(123);
   print<boolean>(true);
   //--------------untilities----------------
-
+  //-----------------Record------------------
   interface CatInfo {
     age: number;
     breed: string;
@@ -141,7 +141,7 @@ const Hello = () => {
     name: true,
     //age:12 --->error
   };
-
+  //----------------Pick--------------------
   interface Todo {
     title: string;
     description: string;
@@ -153,8 +153,10 @@ const Hello = () => {
   const todo: TodoPreview = {
     title: "Clean room",
     completed: false,
+    //description: "sddfgf",---->error
   };
   //不須重複共用Omit
+
   //引數預設值
   const buildName = (firstName: string, lastName: string = "cat"): string => {
     return firstName + " " + lastName;

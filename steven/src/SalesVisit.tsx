@@ -5,7 +5,7 @@ const SalesVisit = () => {
   interface SalesVisitInput {
     EmpId: string;
     Startdt: string;
-    Enddt?: string;
+    Enddt: string;
     type: string;
   }
   type TableData = {
@@ -14,13 +14,24 @@ const SalesVisit = () => {
   const [salesVisit, setSalesVisit] = useState<SalesVisitInput>({
     EmpId: "",
     Startdt: new Date().toLocaleDateString(),
-    Enddt: "",
+    Enddt: getFriday(new Date()).toLocaleDateString(),
     type: "Week",
   });
   const [tableData, setTableData] = useState<TableData[]>();
-
+  //to count monday's date
+  function getMonday(d: Date): Date {
+    d = new Date(d);
+    var day = d.getDay(),
+      diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+    return new Date(d.setDate(diff));
+  }
+  function getFriday(d: Date): Date {
+    d = new Date(d);
+    var day = d.getDay(),
+      diff = d.getDate() - day + (day == 0 ? -2 : 5); // adjust when day is sunday
+    return new Date(d.setDate(diff));
+  }
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    console.log(e.target.name, e.target.value);
     const { name, value } = e.target;
     setSalesVisit((prev) => ({
       ...prev,
@@ -32,11 +43,17 @@ const SalesVisit = () => {
       try {
         const res = await axios.post(
           "https://orangeapi.orange-electronic.com/api/GetSalesVisit",
-          salesVisit
+          {
+            ...salesVisit,
+            Startdt: getMonday(
+              new Date(salesVisit.Startdt)
+            ).toLocaleDateString(),
+            Enddt: getFriday(
+              getMonday(new Date(salesVisit.Startdt))
+            ).toLocaleDateString(),
+          }
         );
-        const tableData = (await res.data) as TableData[];
-        console.log(tableData);
-        setTableData(tableData);
+        setTableData((await res.data) as TableData[]);
       } catch (e) {
         console.log(e);
       }
@@ -49,12 +66,46 @@ const SalesVisit = () => {
         type="date"
         name="Startdt"
         id="Startdt"
-        value={salesVisit.Startdt}
+        value={`${new Date(salesVisit.Startdt).getFullYear().toString()}-${(
+          new Date(salesVisit.Startdt).getMonth() + 1
+        )
+          .toString()
+          .padStart(2, "0")}-${new Date(salesVisit.Startdt)
+          .getDate()
+          .toString()
+          .padStart(2, "0")}`}
         onChange={(e) => {
           handleChange(e);
         }}
       />
-      <span>{salesVisit.Startdt}</span>
+      <input
+        type="date"
+        name="Enddt"
+        id="Enddt"
+        readOnly
+        value={`${getFriday(new Date(salesVisit.Startdt))
+          .getFullYear()
+          .toString()}-${(
+          getFriday(new Date(salesVisit.Startdt)).getMonth() + 1
+        )
+          .toString()
+          .padStart(2, "0")}-${getFriday(new Date(salesVisit.Startdt))
+          .getDate()
+          .toString()
+          .padStart(2, "0")}`}
+        onChange={(e) => {
+          handleChange(e);
+        }}
+      />
+      <br />
+      <span>
+        {"搜尋區間: " +
+          getMonday(new Date(salesVisit.Startdt)).toLocaleDateString() +
+          "~" +
+          getFriday(
+            getMonday(new Date(salesVisit.Startdt))
+          ).toLocaleDateString()}
+      </span>
       <Table tableData={tableData} />
     </div>
   );
