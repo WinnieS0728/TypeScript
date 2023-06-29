@@ -8,6 +8,13 @@ import { responseType } from "@/types/api";
 
 export const ThresholdSettingTable = () => {
   const salesList = useAppSelector((state) => state.member);
+  const defaultValue = [];
+  for (let m = 0; m < 12; m++) {
+    defaultValue.push({
+      existCus: 0,
+      newCus: 0,
+    });
+  }
   const {
     register,
     handleSubmit,
@@ -21,16 +28,7 @@ export const ThresholdSettingTable = () => {
     mode: "onChange",
     // resolver: yupResolver(schema),
     defaultValues: {
-      threshold: [
-        {
-          existCus: 0,
-          newCus: 0,
-        },
-        {
-          existCus: 0,
-          newCus: 0,
-        },
-      ],
+      threshold: defaultValue,
     },
   });
 
