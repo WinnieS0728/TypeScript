@@ -8,6 +8,8 @@ const CustomRatePage = lazy(() => import("@pages/custom rate"));
 const EditPage = lazy(() => import("@pages/edit/edit"));
 const Coming = lazy(() => import("@layouts/coming"));
 
+const ThresholdPage = lazy(() => import("@pages/edit/threshold"));
+
 function App() {
   const dispatch = useAppDispatch();
 
@@ -33,7 +35,7 @@ function App() {
             />
             <Route
               path='threshold'
-              element={<h1>threshold</h1>}
+              element={<ThresholdPage />}
             />
             <Route
               path='store'
