@@ -18,7 +18,7 @@ const SalesVisit = () => {
     type: "Week",
   });
   const [tableData, setTableData] = useState<TableData[]>();
-  //to count monday's date
+
   function getMonday(d: Date): Date {
     d = new Date(d);
     var day = d.getDay(),
@@ -31,7 +31,17 @@ const SalesVisit = () => {
       diff = d.getDate() - day + (day == 0 ? -2 : 5); // adjust when day is sunday
     return new Date(d.setDate(diff));
   }
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function toInputString(date: string): string {
+    return `${new Date(date).getFullYear().toString()}-${(
+      new Date(date).getMonth() + 1
+    )
+      .toString()
+      .padStart(2, "0")}-${new Date(date)
+      .getDate()
+      .toString()
+      .padStart(2, "0")}`;
+  }
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
     const { name, value } = e.target;
     setSalesVisit((prev) => ({
       ...prev,
@@ -66,33 +76,22 @@ const SalesVisit = () => {
         type="date"
         name="Startdt"
         id="Startdt"
-        value={`${new Date(salesVisit.Startdt).getFullYear().toString()}-${(
-          new Date(salesVisit.Startdt).getMonth() + 1
-        )
-          .toString()
-          .padStart(2, "0")}-${new Date(salesVisit.Startdt)
-          .getDate()
-          .toString()
-          .padStart(2, "0")}`}
+        value={toInputString(salesVisit.Startdt)}
         onChange={(e) => {
           handleChange(e);
         }}
       />
+      &emsp;~&emsp;
       <input
         type="date"
         name="Enddt"
         id="Enddt"
         readOnly
-        value={`${getFriday(new Date(salesVisit.Startdt))
-          .getFullYear()
-          .toString()}-${(
-          getFriday(new Date(salesVisit.Startdt)).getMonth() + 1
-        )
-          .toString()
-          .padStart(2, "0")}-${getFriday(new Date(salesVisit.Startdt))
-          .getDate()
-          .toString()
-          .padStart(2, "0")}`}
+        value={toInputString(
+          getFriday(
+            getMonday(new Date(salesVisit.Startdt))
+          ).toLocaleDateString()
+        )}
         onChange={(e) => {
           handleChange(e);
         }}
@@ -107,6 +106,59 @@ const SalesVisit = () => {
           ).toLocaleDateString()}
       </span>
       <Table tableData={tableData} />
+      <table>
+        <thead>
+          <th>form</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <form action="">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>QQ</th>
+                      <th>aa</th>
+                      <th>bb</th>
+                      <th>ss</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <input type="text" />
+                      </td>
+                      <td>
+                        <input type="text" />
+                      </td>
+                      <td>
+                        <input type="text" />
+                      </td>
+                      <td>
+                        <input type="text" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type="text" />
+                      </td>
+                      <td>
+                        <input type="text" />
+                      </td>
+                      <td>
+                        <input type="text" />
+                      </td>
+                      <td>
+                        <input type="text" />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </form>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 };
