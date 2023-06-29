@@ -1,20 +1,50 @@
-import { useAppSelector } from "@/hooks/redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { Table } from "@components/table/table";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { tr } from "date-fns/locale";
+
 import { useFieldArray, useForm } from "react-hook-form";
 import { TrList } from "./tr";
-import { responseType } from "@/types/api";
+import { useEffect } from "react";
+import * as yup from "yup";
 
 export const ThresholdSettingTable = () => {
   const salesList = useAppSelector((state) => state.member);
-  const defaultValue = [];
-  for (let m = 0; m < 12; m++) {
-    defaultValue.push({
-      existCus: 0,
-      newCus: 0,
-    });
-  }
+  const timeData = useAppSelector((state) => state.time);
+  const thresholdData = useAppSelector((state) => state.threshold);
+
+  const initData = salesList.body.map((p) => {
+    const test = thresholdData.body.find((d) => d?.Empid === p?.EmpId);
+
+    const t = test
+      ? test
+      : {
+          Jan: "0",
+          Feb: "0",
+          Mar: "0",
+          Apr: "0",
+          May: "0",
+          Jun: "0",
+          Jul: "0",
+          Aug: "0",
+          Sep: "0",
+          Oct: "0",
+          Nov: "0",
+          Dec: "0",
+        };
+
+    return {
+      ...p,
+      ...t,
+    };
+  });
+
+  const percentSchema = {
+    existCus: yup.number().min(0).max(100),
+    newCus: yup.number().min(0).max(100),
+  };
+
+  const schema: any = yup.object()
+
   const {
     register,
     handleSubmit,
@@ -26,11 +56,18 @@ export const ThresholdSettingTable = () => {
     shouldUnregister: true,
     criteriaMode: "all",
     mode: "onChange",
-    // resolver: yupResolver(schema),
+    resolver: yupResolver(schema),
     defaultValues: {
-      threshold: defaultValue,
+      threshold: initData,
     },
   });
+
+  console.log(errors);
+
+  // const watchData = watch("threshold");
+  // useEffect(() => {
+  //   console.log(watchData);
+  // }, [watchData]);
 
   const { fields, append, remove, replace } = useFieldArray({
     name: "threshold",
@@ -69,25 +106,21 @@ export const ThresholdSettingTable = () => {
               </tr>
             </thead>
             <tbody>
-              {salesList.body.map((member, index) => {
-                return (
-                  <TrList
-                    key={member?.EmpId}
-                    index={index}
-                    member={member as responseType}
-                    register={register}
-                    fields={fields}
-                  />
-                );
-              })}
+              {fields.map((field, index) => (
+                <TrList
+                  field={field}
+                  index={index}
+                  key={field.id}
+                  register={register}
+                />
+              ))}
             </tbody>
           </table>
+          <input
+            type='submit'
+            value='send'
+          />
         </form>
-        <input
-          form='threshold'
-          type='submit'
-          value='send'
-        />
       </>
     </Table>
   );

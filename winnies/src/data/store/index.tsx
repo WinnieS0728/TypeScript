@@ -6,6 +6,7 @@ import timeReducer from "@reducers/time";
 import memberReducer from "@reducers/member/salesList";
 import personVisitSlice from "@reducers/visit data/person visit";
 import weekVisitSlice from "@reducers/visit data/week visit";
+import thresholdSlice from "@reducers/kpi threshold/threshold";
 
 const store = configureStore({
   reducer: {
@@ -14,11 +15,12 @@ const store = configureStore({
     member: memberReducer,
     personVisit: personVisitSlice,
     weekVisit: weekVisitSlice,
+    threshold: thresholdSlice,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(logger);
+    });
   },
 });
 

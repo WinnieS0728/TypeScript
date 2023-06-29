@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import { useAppDispatch } from "@hooks/redux";
 import { setSalesList } from "@actions/member/setSalesList";
 
+
 const CustomRatePage = lazy(() => import("@pages/custom rate"));
 const EditPage = lazy(() => import("@pages/edit/edit"));
 const Coming = lazy(() => import("@layouts/coming"));

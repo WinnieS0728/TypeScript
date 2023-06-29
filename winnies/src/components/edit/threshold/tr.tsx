@@ -1,53 +1,50 @@
-import { responseType } from "@/types/api";
-import { FieldArrayWithId, UseFormRegister } from "react-hook-form";
+
 
 interface propsType {
-  member: responseType;
+  field: any;
   index: number;
-  register: UseFormRegister<{
-    threshold: {
-      existCus: number;
-      newCus: number;
-    }[];
-  }>;
-  fields: FieldArrayWithId<
-    {
-      threshold: {
-        existCus: number;
-        newCus: number;
-      }[];
-    },
-    "threshold",
-    "id"
-  >[];
+  register: any;
 }
-export const TrList = ({ member, index, register, fields }: propsType) => {
+export const TrList = ({ field, index, register }: propsType) => {
+  const months = [
+    "jan",
+    "feb",
+    "mar",
+    "apr",
+    "may",
+    "jun",
+    "jul",
+    "aug",
+    "sep",
+    "oct",
+    "nov",
+    "dec",
+  ];
+
   return (
     <>
-      <tr key={`${member?.EmpId} existCus`}>
+      <tr>
         <td rowSpan={2}>{index + 1}</td>
-        <td rowSpan={2}>{member?.EmpName}</td>
-        <td>ATU & 既有客戶</td>
-        {fields.map((field, index) => (
-          <td key={field.id}>
+        <td rowSpan={2}>{field.EmpName}</td>
+        <td>exist</td>
+        {months.map((m) => (
+          <td key={m}>
             <input
               type='number'
-              {...register(`threshold.${index}.existCus`, {
-                valueAsNumber: true,
-              })}
+              {...register(`threshold.${index}[${m}].existCus`)}
+              placeholder="..."
             />
           </td>
         ))}
       </tr>
-      <tr key={`${member?.EmpId} newCus`}>
-        <td>新客戶</td>
-        {fields.map((field, index) => (
-          <td key={field.id}>
+      <tr>
+        <td>new</td>
+        {months.map((m) => (
+          <td key={m}>
             <input
               type='number'
-              {...register(`threshold.${index}.newCus`, {
-                valueAsNumber: true,
-              })}
+              {...register(`threshold.${index}[${m}].newCus`)}
+              placeholder="..."
             />
           </td>
         ))}
