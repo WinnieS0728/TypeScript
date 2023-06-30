@@ -220,7 +220,6 @@ const Hello = () => {
     });
     return num;
   };
-
   useEffect(() => {
     getData();
   }, []);

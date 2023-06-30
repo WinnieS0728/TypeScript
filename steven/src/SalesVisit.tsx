@@ -106,59 +106,6 @@ const SalesVisit = () => {
           ).toLocaleDateString()}
       </span>
       <Table tableData={tableData} />
-      <table>
-        <thead>
-          <th>form</th>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <form action="">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>QQ</th>
-                      <th>aa</th>
-                      <th>bb</th>
-                      <th>ss</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <input type="text" />
-                      </td>
-                      <td>
-                        <input type="text" />
-                      </td>
-                      <td>
-                        <input type="text" />
-                      </td>
-                      <td>
-                        <input type="text" />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <input type="text" />
-                      </td>
-                      <td>
-                        <input type="text" />
-                      </td>
-                      <td>
-                        <input type="text" />
-                      </td>
-                      <td>
-                        <input type="text" />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </form>
-            </td>
-          </tr>
-        </tbody>
-      </table>
     </div>
   );
 };

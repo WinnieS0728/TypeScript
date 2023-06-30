@@ -7,7 +7,6 @@ interface tableDataProps {
 const Table = ({ tableData }: tableDataProps) => {
   return (
     <table>
-      <thead></thead>
       <tbody>
         {tableData &&
           tableData.map(
