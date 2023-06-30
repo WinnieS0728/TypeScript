@@ -1,57 +1,95 @@
-import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { useAppSelector } from "@/hooks/redux";
 import { Table } from "@components/table/table";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useFieldArray, useForm } from "react-hook-form";
 import { TrList } from "./tr";
-import { useEffect } from "react";
 import * as yup from "yup";
+import { GetData } from "./data";
+import { useCallback, useEffect, useState } from "react";
+import { monthType } from "@/types";
+import { SubmitBtn } from "@/components/UI/buttons";
 
 export const ThresholdSettingTable = () => {
   const salesList = useAppSelector((state) => state.member);
-  const timeData = useAppSelector((state) => state.time);
-  const thresholdData = useAppSelector((state) => state.threshold);
+  const [selected, setSelected] = useState<string>("");
+  const [selectNumber, setSelectNumber] = useState<number>(0);
+  const monthAry: monthType[] = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  interface dataType {
+    existCus: number;
+    newCus: number;
+  }
+
+  type dataInMonthType = {
+    [key in monthType]?: dataType;
+  };
 
   const initData = salesList.body.map((p) => {
-    const test = thresholdData.body.find((d) => d?.Empid === p?.EmpId);
+    const defaultObject: dataType = {
+      existCus: 0,
+      newCus: 0,
+    };
 
-    const t = test
-      ? test
-      : {
-          Jan: "0",
-          Feb: "0",
-          Mar: "0",
-          Apr: "0",
-          May: "0",
-          Jun: "0",
-          Jul: "0",
-          Aug: "0",
-          Sep: "0",
-          Oct: "0",
-          Nov: "0",
-          Dec: "0",
-        };
+    const fineObject: dataInMonthType = {};
+    for (const m of monthAry) {
+      fineObject[`${m}`] = defaultObject;
+    }
 
     return {
-      ...p,
-      ...t,
+      EmpName: p?.EmpName,
+      ...fineObject,
     };
   });
 
-  const percentSchema = {
-    existCus: yup.number().min(0).max(100),
-    newCus: yup.number().min(0).max(100),
-  };
+  const percentSchema = yup.object({
+    existCus: yup
+      .number()
+      .min(0, "百分比不可小於0")
+      .max(100, "百分比不可大於100"),
+    newCus: yup
+      .number()
+      .min(0, "百分比不可小於0")
+      .max(100, "百分比不可大於100"),
+  });
 
-  const schema: any = yup.object()
+  const monthSchema = yup.object({
+    Jan: percentSchema,
+    Feb: percentSchema,
+    Mar: percentSchema,
+    Apr: percentSchema,
+    May: percentSchema,
+    Jun: percentSchema,
+    Jul: percentSchema,
+    Aug: percentSchema,
+    Sep: percentSchema,
+    Oct: percentSchema,
+    Nov: percentSchema,
+    Dec: percentSchema,
+  });
+
+  const schema = yup.object({
+    threshold: yup.array().of(monthSchema),
+  });
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     control,
-    reset,
-    watch,
+    setValue,
   } = useForm({
     shouldUnregister: true,
     criteriaMode: "all",
@@ -62,14 +100,7 @@ export const ThresholdSettingTable = () => {
     },
   });
 
-  console.log(errors);
-
-  // const watchData = watch("threshold");
-  // useEffect(() => {
-  //   console.log(watchData);
-  // }, [watchData]);
-
-  const { fields, append, remove, replace } = useFieldArray({
+  const { fields, replace } = useFieldArray({
     name: "threshold",
     control,
   });
@@ -78,50 +109,98 @@ export const ThresholdSettingTable = () => {
     console.log(d);
   }
 
+  if (Object.keys(errors).length !== 0) {
+    console.log(errors);
+  }
+
+  const dataSet = GetData().dataSet;
+  const status = GetData().status;
+
+  const setData = useCallback(
+    function () {
+      replace(dataSet);
+    },
+    [dataSet, replace]
+  );
+
+  useEffect(() => {
+    if (status === "succeeded") {
+      setData();
+    }
+  }, [status]);
+
+  const go = useCallback(
+    function (type: string) {
+      if (selectNumber === 0) {
+        return;
+      }
+
+      const spreadName = selected.split(".");
+      const index = parseInt(spreadName[1]);
+      const month = spreadName[2];
+
+      setValue(`threshold.${index}.${month}.${type}`, 100 - selectNumber);
+
+      setSelectNumber(0);
+    },
+    [selectNumber, selected, setValue]
+  );
+
+  useEffect(() => {
+    if (selected.endsWith("existCus")) {
+      console.log("修改既有客戶");
+      go("newCus");
+    } else if (selected.endsWith("newCus")) {
+      console.log("修改新客戶");
+      go("existCus");
+    }
+  }, [selected, go]);
+
   return (
-    <Table title='客戶拜訪佔比警示值'>
-      <>
-        <form
-          id='threshold'
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <table>
-            <thead>
-              <tr>
-                <td>NO.</td>
-                <td>業務</td>
-                <td>客戶類別</td>
-                <td>1月</td>
-                <td>2月</td>
-                <td>3月</td>
-                <td>4月</td>
-                <td>5月</td>
-                <td>6月</td>
-                <td>7月</td>
-                <td>8月</td>
-                <td>9月</td>
-                <td>10月</td>
-                <td>11月</td>
-                <td>12月</td>
-              </tr>
-            </thead>
-            <tbody>
-              {fields.map((field, index) => (
-                <TrList
-                  field={field}
-                  index={index}
-                  key={field.id}
-                  register={register}
-                />
-              ))}
-            </tbody>
-          </table>
-          <input
-            type='submit'
-            value='send'
-          />
-        </form>
-      </>
-    </Table>
+    <>
+      <SubmitBtn text="儲存" />
+      <Table title='客戶拜訪佔比警示值'>
+        <>
+          <form
+            id='threshold'
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <table>
+              <thead>
+                <tr>
+                  <td>NO.</td>
+                  <td>業務</td>
+                  <td>客戶類別</td>
+                  <td>1月</td>
+                  <td>2月</td>
+                  <td>3月</td>
+                  <td>4月</td>
+                  <td>5月</td>
+                  <td>6月</td>
+                  <td>7月</td>
+                  <td>8月</td>
+                  <td>9月</td>
+                  <td>10月</td>
+                  <td>11月</td>
+                  <td>12月</td>
+                </tr>
+              </thead>
+              <tbody>
+                {fields.map((field, index) => (
+                  <TrList
+                    field={field}
+                    index={index}
+                    key={field.id}
+                    register={register}
+                    setSelected={setSelected}
+                    setSelectNumber={setSelectNumber}
+                  />
+                ))}
+              </tbody>
+            </table>
+          </form>
+        </>
+      </Table>
+    </>
   );
 };

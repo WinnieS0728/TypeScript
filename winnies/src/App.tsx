@@ -27,7 +27,7 @@ function App() {
             element={<CustomRatePage />}
           />
           <Route
-            path='edit'
+            path='setting'
             element={<EditPage />}
           >
             <Route

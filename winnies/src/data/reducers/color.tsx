@@ -15,6 +15,7 @@ const colorData: colorType = {
   tableBgc: "##E8E8E8",
   tableBgc_darker: "#868686",
   error_table: "#FFE3E4",
+  submitBtn: "#FB8626",
 };
 
 const colorSlice = createSlice({

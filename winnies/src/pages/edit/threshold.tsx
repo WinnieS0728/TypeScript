@@ -4,7 +4,7 @@ const ThresholdPage = () => {
   return (
     <>
       <div className='container-fluid'>
-          <ThresholdSettingTable />
+        <ThresholdSettingTable />
       </div>
     </>
   );

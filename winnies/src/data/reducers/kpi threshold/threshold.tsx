@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { setThreshold } from "@actions/kpi threshold/threshold";
-import { stateType, statusType } from "types/api";
+import { responseType, statusType } from "types/api";
 
-const data: stateType = [];
+const data: {
+  [key: string]: responseType;
+} = {};
 
 const thresholdSlice = createSlice({
   name: "threshold",
@@ -16,7 +18,7 @@ const thresholdSlice = createSlice({
       .addCase(setThreshold.fulfilled, (state, action) => {
         state.status = statusType.succeeded;
         if (action.payload) {
-          state.body.push(...action.payload);
+          state.body[action.payload[0]?.EmpName] = action.payload[0];
         }
       })
       .addCase(setThreshold.pending, (state) => {
