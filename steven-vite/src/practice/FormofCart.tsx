@@ -7,7 +7,7 @@ type FormValues = {
 }[];
 type AllFormValues = {
   cusName: string;
-  age: number;
+  age: string;
   desc: string;
   carts: FormValues;
 };
@@ -21,7 +21,7 @@ export default function FormofCart() {
   } = useForm<AllFormValues>({
     defaultValues: {
       cusName: "Steven",
-      age: 18,
+      age: "18",
       desc: "test",
       carts: [{ name: "test", quantity: 1, price: 23 }],
     },
@@ -35,7 +35,7 @@ export default function FormofCart() {
 
   return (
     <div>
-      <div className="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4">
+      <div className="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4 zIndex-10">
         <div className="shrink-0">
           <img className="h-12 w-12" src="/img/logo.svg" alt="ChitChat Logo" />
         </div>
@@ -45,14 +45,14 @@ export default function FormofCart() {
         </div>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
+        <div className="border-4 border-indigo-200 border-t-indigo-500">
           <input
             type="text"
             placeholder=""
             {...register("cusName", {
               required: true,
             })}
-            className={errors?.cusName ? "error" : ""}
+            className={errors?.cusName ? "error" : `form-input`}
           />
           <input
             type="number"
@@ -65,6 +65,7 @@ export default function FormofCart() {
           <br />
           <textarea
             id="Desc"
+            className="form-textarea"
             {...register("desc", {
               required: true,
             })}
@@ -73,9 +74,13 @@ export default function FormofCart() {
         </div>
         {fields.map((field, index) => {
           return (
-            <div key={field.id}>
-              <section className={"section"} key={field.id}>
+            <div key={field.id} className="mb-2">
+              <section
+                className={"section grid grid-cols-4 gap-4 mt-1 "}
+                key={field.id}
+              >
                 <input
+                  type="text"
                   placeholder="name"
                   {...register(`carts.${index}.name` as const, {
                     required: true,
@@ -98,7 +103,9 @@ export default function FormofCart() {
                     valueAsNumber: true,
                     required: true,
                   })}
-                  className={errors?.carts?.[index]?.price ? "error" : ""}
+                  className={
+                    errors?.carts?.[index]?.price ? "error" : "form-input"
+                  }
                 />
                 <button
                   type="button"
@@ -111,7 +118,7 @@ export default function FormofCart() {
             </div>
           );
         })}
-
+        <input type="submit" className="me-2"/>
         <button
           type="button"
           className="btn-blue"
@@ -125,7 +132,6 @@ export default function FormofCart() {
         >
           APPEND
         </button>
-        <input type="submit" />
       </form>
     </div>
   );
