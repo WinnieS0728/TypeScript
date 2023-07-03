@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { Table } from "@components/table/table";
 import { getWeek, isSunday, isValid } from "date-fns";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { DayPicker } from "react-day-picker";
 import { useTheme } from "styled-components";
 import { timeDay, timeMonday, timeSunday } from "d3-time";
@@ -10,12 +10,11 @@ import { setWeekVisitData } from "@actions/visit data/set week visit";
 import { GetData } from "./week data";
 
 export const WeekTable = () => {
-  const salesList = useAppSelector((state) => state.member);
   const timeData = useAppSelector((state) => state.time);
   const color = useTheme();
   const [value, setValue] = useState<string>("");
-  const [selected, setSelected] = useState<Date>(new Date(timeData.today));
   const [firstTime, setFirstTime] = useState<boolean>(true);
+  const [selected, setSelected] = useState<Date>(new Date(timeData.today));
 
   const Filter = () => {
     const [month, setMonth] = useState<Date>();
@@ -122,7 +121,7 @@ export const WeekTable = () => {
             autoComplete='off'
             placeholder='請選擇日期'
             value={value}
-            onClick={() => {
+            onFocus={() => {
               setShow((prev) => !prev);
             }}
             readOnly
@@ -195,8 +194,9 @@ export const WeekTable = () => {
         </thead>
         <tbody>
           {visitData.map((d, index) => {
-            const threshold = getKpiThreshold(d);            
-            const isBad = getPercent(d.visitData.newCus, d.visitData.total) > threshold;
+            const threshold = getKpiThreshold(d);
+            const isBad =
+              getPercent(d.visitData.newCus, d.visitData.total) > threshold;
 
             return (
               <tr

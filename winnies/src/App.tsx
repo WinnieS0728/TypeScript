@@ -5,6 +5,7 @@ import { useAppDispatch } from "@hooks/redux";
 import { setSalesList } from "@actions/member/setSalesList";
 import store from "./data/store";
 import { setUser } from "./data/reducers/nowUser";
+import TTT from "./pages/test";
 
 
 const CustomRatePage = lazy(() => import("@pages/custom rate"));
@@ -35,6 +36,7 @@ function App() {
             index
             element={<CustomRatePage />}
           />
+          <Route path="tra" element={<TTT/>}/>
           <Route
             path='setting'
             element={<EditPage />}
