@@ -160,14 +160,16 @@ export const WeekTable = () => {
   const visitData = GetData();
   // console.log(visitData);
 
-  function getNumber(name: string, key: string): number {
-    const num = visitData.find((d) => d.name === name)?.visitData[key];
-
-    return num as number;
+  function getPercent(d1: number, d2: number): number {
+    const percent = parseInt(((d1 / d2) * 100).toFixed(0));
+    return percent ? percent : 0;
   }
-  function getPercent(d1: number, d2: number): string {
-    const percent = d2 ? ((d1 / d2) * 100).toFixed(0) : "0";
-    return percent;
+
+  function getKpiThreshold(d: any) {
+    const month = selected.toLocaleString("en", { month: "short" });
+    const num = d.threshold?.[month];
+
+    return parseInt(num);
   }
 
   return (
@@ -192,30 +194,29 @@ export const WeekTable = () => {
           </tr>
         </thead>
         <tbody>
-          {salesList.body.map((i) => (
-            <tr
-              key={i?.EmpId}
-              // style={{ backgroundColor: color?.error_table }}
-            >
-              <td>{i?.EmpName}</td>
-              <td>{getNumber(i?.EmpName as string, "total")}</td>
-              <td>{getNumber(i?.EmpName as string, "atu")}</td>
-              <td>{getNumber(i?.EmpName as string, "existCus")}</td>
-              <td>
-                {getPercent(
-                  getNumber(i?.EmpName as string, "old"),
-                  getNumber(i?.EmpName as string, "total")
-                ) + "%"}
-              </td>
-              <td>{getNumber(i?.EmpName as string, "newCus")}</td>
-              <td>
-                {getPercent(
-                  getNumber(i?.EmpName as string, "newCus"),
-                  getNumber(i?.EmpName as string, "total")
-                ) + "%"}
-              </td>
-            </tr>
-          ))}
+          {visitData.map((d, index) => {
+            const threshold = getKpiThreshold(d);            
+            const isBad = getPercent(d.visitData.newCus, d.visitData.total) > threshold;
+
+            return (
+              <tr
+                key={index}
+                style={{
+                  backgroundColor: isBad ? color?.error_table : "transparent",
+                }}
+              >
+                <td>{d.name}</td>
+                <td>{d.visitData.total}</td>
+                <td>{d.visitData.atu}</td>
+                <td>{d.visitData.existCus}</td>
+                <td>{getPercent(d.visitData.old, d.visitData.total) + "%"}</td>
+                <td>{d.visitData.newCus}</td>
+                <td>
+                  {getPercent(d.visitData.newCus, d.visitData.total) + "%"}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </Table>

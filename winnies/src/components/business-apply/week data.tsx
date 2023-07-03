@@ -1,9 +1,13 @@
+import { setThreshold } from "@/data/actions/kpi threshold/threshold";
 import { responseType } from "@/types/api";
-import { useAppSelector } from "@hooks/redux";
+import { useAppDispatch, useAppSelector } from "@hooks/redux";
+import { useEffect } from "react";
 
 export function GetData() {
   const visitData = useAppSelector((state) => state.weekVisit);
   const salesData = useAppSelector((state) => state.member);
+  const timeData = useAppSelector((state) => state.time);
+  const threshold = useAppSelector((state) => state.threshold);
 
   function getStorNumber(data: responseType[], key: string): number {
     if (!data) return 0;
@@ -34,12 +38,23 @@ export function GetData() {
     };
   }
 
+  const dispatch = useAppDispatch();
+  useEffect(
+    function () {
+      salesData.body.map((i) => {
+        dispatch(setThreshold({ year: timeData.thisYear, id: i?.EmpId }));
+      });
+    },
+    [dispatch, salesData, timeData]
+  );
+  // console.log(threshold.body);
+
   const salesDataList = salesData.body.map((i) => {
     const name = i ? i.EmpName : "";
     return {
       name: name,
       visitData: getSalesVisitData(name),
-      threshold: 75,
+      threshold: threshold.body.find((i) => i.EmpName === name),
     };
   });
 

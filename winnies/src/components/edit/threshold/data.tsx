@@ -18,8 +18,7 @@ export function GetData() {
         return false;
       }
     })
-  );  
-  
+  );
 
   const data = salesList.body.map((p) => {
     function value2Object(value: string) {
@@ -29,7 +28,8 @@ export function GetData() {
       };
     }
 
-    const targetObject = threshold.body[p?.EmpName as string];
+    const targetObject = threshold.body.find((i) => (i.EmpName === p?.EmpName));
+    
 
     return {
       EmpName: p?.EmpName,
@@ -50,7 +50,7 @@ export function GetData() {
   });
 
   const status = threshold.status;
-    // console.log({ data });
+  // console.log({ data });
   return {
     dataSet: data,
     status: status,
