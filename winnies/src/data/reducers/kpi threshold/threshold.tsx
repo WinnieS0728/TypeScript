@@ -6,26 +6,28 @@ const data: {
   [key: string]: responseType;
 } = {};
 
+const statusArray: statusType[] = [];
+
 const thresholdSlice = createSlice({
   name: "threshold",
   initialState: {
     body: data,
-    status: statusType.idle,
+    status: statusArray,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(setThreshold.fulfilled, (state, action) => {
-        state.status = statusType.succeeded;
+        state.status.push(statusType.succeeded);
         if (action.payload) {
           state.body[action.payload[0]?.EmpName] = action.payload[0];
         }
       })
       .addCase(setThreshold.pending, (state) => {
-        state.status = statusType.loading;
+        state.status.push(statusType.loading);
       })
       .addCase(setThreshold.rejected, (state) => {
-        state.status = statusType.failed;
+        state.status.push(statusType.failed);
         state.body = data;
       });
   },

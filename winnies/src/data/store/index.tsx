@@ -7,11 +7,13 @@ import memberReducer from "@reducers/member/salesList";
 import personVisitSlice from "@reducers/visit data/person visit";
 import weekVisitSlice from "@reducers/visit data/week visit";
 import thresholdSlice from "@reducers/kpi threshold/threshold";
+import userSlice from "@reducers/nowUser";
 
 const store = configureStore({
   reducer: {
     color: colorReducer,
     time: timeReducer,
+    EmpID: userSlice,
     member: memberReducer,
     personVisit: personVisitSlice,
     weekVisit: weekVisitSlice,

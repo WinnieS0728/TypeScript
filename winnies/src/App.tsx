@@ -1,8 +1,10 @@
 import { lazy, useEffect } from "react";
 import { Suspense } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useSearchParams } from "react-router-dom";
 import { useAppDispatch } from "@hooks/redux";
 import { setSalesList } from "@actions/member/setSalesList";
+import store from "./data/store";
+import { setUser } from "./data/reducers/nowUser";
 
 
 const CustomRatePage = lazy(() => import("@pages/custom rate"));
@@ -17,6 +19,13 @@ function App() {
   useEffect(() => {
     dispatch(setSalesList());
   }, [dispatch]);
+
+  const [search] = useSearchParams();
+
+  const EmpID = store.getState().EmpID || search.get("userID");
+  useEffect(() => {
+    dispatch(setUser(EmpID));
+  }, []);
 
   return (
     <Suspense fallback={<h1>那你網路很慢欸</h1>}>

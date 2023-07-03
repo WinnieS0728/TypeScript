@@ -65,7 +65,7 @@ export const TrList = ({
           >
             <input
               type='text'
-              {...register(`threshold.${index}.${m}.existCus`, {
+              {...register(`threshold.${index}.${m}.existCus` as const, {
                 setValueAs: (v: string): number => {
                   return v ? parseInt(v) : 0;
                 },
@@ -97,7 +97,7 @@ export const TrList = ({
           >
             <input
               type='text'
-              {...register(`threshold.${index}.${m}.newCus`, {
+              {...register(`threshold.${index}.${m}.newCus` as const, {
                 setValueAs: (v: string): number => {
                   return v ? parseInt(v) : 0;
                 },

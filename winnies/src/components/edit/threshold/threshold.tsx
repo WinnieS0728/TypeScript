@@ -7,14 +7,19 @@ import { TrList } from "./tr";
 import * as yup from "yup";
 import { GetData } from "./data";
 import { useCallback, useEffect, useState } from "react";
-import { monthType } from "@/types";
 import { SubmitBtn } from "@/components/UI/buttons";
+import api from "@/lib/api";
+import { SassList } from "sass";
 
 export const ThresholdSettingTable = () => {
   const salesList = useAppSelector((state) => state.member);
+  const timeData = useAppSelector((state) => state.time);
+  const nowUser = useAppSelector((state) => state.EmpID);
   const [selected, setSelected] = useState<string>("");
   const [selectNumber, setSelectNumber] = useState<number>(0);
-  const monthAry: monthType[] = [
+  const [aa, ss] = useState();
+
+  const monthAry = [
     "Jan",
     "Feb",
     "Mar",
@@ -33,23 +38,22 @@ export const ThresholdSettingTable = () => {
     newCus: number;
   }
 
-  type dataInMonthType = {
-    [key in monthType]?: dataType;
-  };
-
   const initData = salesList.body.map((p) => {
     const defaultObject: dataType = {
       existCus: 0,
       newCus: 0,
     };
 
-    const fineObject: dataInMonthType = {};
+    const fineObject: {
+      [keys: string]: typeof defaultObject;
+    } = {};
     for (const m of monthAry) {
       fineObject[`${m}`] = defaultObject;
     }
 
     return {
       EmpName: p?.EmpName,
+      EmpId: p?.EmpId,
       ...fineObject,
     };
   });
@@ -96,18 +100,14 @@ export const ThresholdSettingTable = () => {
     mode: "onChange",
     resolver: yupResolver(schema),
     defaultValues: {
-      threshold: initData,
+      threshold: initData as any,
     },
   });
 
   const { fields, replace } = useFieldArray({
-    name: "threshold",
+    name: `threshold`,
     control,
   });
-
-  function onSubmit(d: unknown) {
-    console.log(d);
-  }
 
   if (Object.keys(errors).length !== 0) {
     console.log(errors);
@@ -115,19 +115,18 @@ export const ThresholdSettingTable = () => {
 
   const dataSet = GetData().dataSet;
   const status = GetData().status;
+  const dataExist = GetData().dataExist;
 
-  const setData = useCallback(
+  useEffect(
     function () {
-      replace(dataSet);
+      if (
+        status.filter((i) => i === "succeeded").length === salesList.body.length
+      ) {
+        replace(dataSet);
+      }
     },
-    [dataSet, replace]
+    [status, replace, salesList]
   );
-
-  useEffect(() => {
-    if (status === "succeeded") {
-      setData();
-    }
-  }, [status]);
 
   const go = useCallback(
     function (type: string) {
@@ -139,7 +138,10 @@ export const ThresholdSettingTable = () => {
       const index = parseInt(spreadName[1]);
       const month = spreadName[2];
 
-      setValue(`threshold.${index}.${month}.${type}`, 100 - selectNumber);
+      setValue(
+        `threshold.${index}.${month}.${type}` as `threshold.${number}.Jan.existCus`,
+        100 - selectNumber
+      );
 
       setSelectNumber(0);
     },
@@ -148,22 +150,72 @@ export const ThresholdSettingTable = () => {
 
   useEffect(() => {
     if (selected.endsWith("existCus")) {
-      console.log("修改既有客戶");
+      // console.log("修改既有客戶");
       go("newCus");
     } else if (selected.endsWith("newCus")) {
-      console.log("修改新客戶");
+      // console.log("修改新客戶");
       go("existCus");
     }
   }, [selected, go]);
 
+  async function sendApiRequest(
+    index: number,
+    id: string,
+    data: {
+      [keys: string]: number | undefined;
+    }
+  ) {
+    const checkDataIsExist = await dataExist;
+    const res = api.thresHold.post(
+      timeData.thisYear,
+      id,
+      data,
+      checkDataIsExist[index],
+      nowUser
+    );
+    return res;
+  }
+
+  async function onSubmit(d: { threshold: any }) {
+    // console.log(d);
+    const data = d.threshold;
+    // console.log(data);
+
+    const postStatus = Promise.all(
+      data.map(async (d: any, index: number) => {
+        const monthData: { [keys: string]: number | undefined } = {};
+        for (const m of monthAry) {
+          monthData[m] = d?.[m]?.newCus;
+        }
+
+        return {
+          name: d.EmpName,
+          status: await sendApiRequest(index, d.EmpId, monthData),
+        };
+      })
+    );
+
+    const p = await postStatus;
+    if (p.map((i) => i.status).every((i) => i === "設定新增完成")) {
+      console.log("設定成功");
+    } else {
+      console.log(
+        `${p
+          .filter((i) => i.status !== "設定新增完成")
+          .map((i) => i.name)
+          .join(",")} 設定失敗`
+      );
+    }
+  }
+
   return (
     <>
-      <SubmitBtn text="儲存" />
+      <SubmitBtn text='儲存' />
       <Table title='客戶拜訪佔比警示值'>
         <>
           <form
             id='threshold'
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(onSubmit as any)}
           >
             <table>
               <thead>

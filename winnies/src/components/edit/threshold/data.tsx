@@ -1,10 +1,25 @@
 import { useAppSelector } from "@/hooks/redux";
-import { log } from "console";
-import { useEffect } from "react";
+import api from "@/lib/api";
 
 export function GetData() {
   const salesList = useAppSelector((state) => state.member);
   const threshold = useAppSelector((state) => state.threshold);
+  const timeData = useAppSelector((state) => state.time);
+
+  const dataExist = Promise.all(
+    salesList.body.map(async (i) => {
+      const res = await api.thresHold.fetch(
+        timeData.thisYear,
+        i?.EmpId as string
+      );
+      if (res) {
+        return true;
+      } else {
+        return false;
+      }
+    })
+  );  
+  
 
   const data = salesList.body.map((p) => {
     function value2Object(value: string) {
@@ -18,6 +33,7 @@ export function GetData() {
 
     return {
       EmpName: p?.EmpName,
+      EmpId: p?.EmpId,
       Jan: value2Object(targetObject?.Jan),
       Feb: value2Object(targetObject?.Feb),
       Mar: value2Object(targetObject?.Mar),
@@ -34,9 +50,10 @@ export function GetData() {
   });
 
   const status = threshold.status;
-  //   console.log({ data });
+    // console.log({ data });
   return {
     dataSet: data,
     status: status,
+    dataExist,
   };
 }
