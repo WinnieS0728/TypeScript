@@ -3,21 +3,21 @@ import axios from "axios";
 import { get } from "http";
 const Hello = () => {
   // 基本型別
-  let isDone: boolean = false;
-  let decimal: number = 6;
-  let color: string = "blue";
+  const isDone = false;
+  const decimal = 6;
+  const color = "blue";
 
   //陣列
-  let list: number[] = [1, 2, 3];
-  let list2: Array<number> = [1, 2, 3];
+  const list: number[] = [1, 2, 3];
+  const list2: Array<number> = [1, 2, 3];
   let x: [string, number];
-  let arr2: string[][] = [
+  const arr2: string[][] = [
     ["1", "2"],
     ["3", "4"],
   ];
 
   //元祖
-  let tuple: [string, number, boolean] = ["1", 2, true];
+  const tuple: [string, number, boolean] = ["1", 2, true];
   //列舉
   enum LiveStatus {
     SUCCESS = 0,
@@ -92,7 +92,9 @@ const Hello = () => {
     constructor(rn: string, identify: string, state: number) {
       super(rn, identify, state);
     }
-    start() {}
+    start() {
+      console.log("start");
+    }
   }
 
   const live = new Live("Steven", "00001", 1);
@@ -158,7 +160,7 @@ const Hello = () => {
   //不須重複共用Omit
 
   //引數預設值
-  const buildName = (firstName: string, lastName: string = "cat"): string => {
+  const buildName = (firstName: string, lastName = "cat"): string => {
     return firstName + " " + lastName;
   };
   type calLength = (something: string | number) => number;
@@ -179,7 +181,7 @@ const Hello = () => {
   ];
   type deptType = (arr: stringObject[]) => string;
   const getDept: deptType = (arr) => {
-    let dept: string = "";
+    let dept = "";
     arr.forEach((item) => {
       dept += "_" + item.dept;
     });
@@ -195,7 +197,7 @@ const Hello = () => {
   ];
   type numType = (arr: numObject[]) => number;
   const getNum: numType = (arr) => {
-    let num: number = 0;
+    let num = 0;
     arr.forEach((item) => {
       num += item.quentity;
     });
@@ -205,7 +207,7 @@ const Hello = () => {
   interface visitData {
     [propsName: string]: number | string | boolean;
   }
-  let ajaxData: visitData[] = [
+  const ajaxData: visitData[] = [
     { createData: "2021-01-01", value: 123, isPremium: true },
     { createData: "2021-01-02", value: 122, isPremium: false },
     { createData: "2021-01-03", value: 121, isPremium: true },
@@ -213,7 +215,7 @@ const Hello = () => {
 
   type ajaxType = (arr: visitData[]) => number;
   const sumAjaxDataValue: ajaxType = (arr) => {
-    let num: number = 0;
+    let num = 0;
     arr.forEach((item) => {
       const { value } = item;
       num += value as number;
@@ -222,7 +224,7 @@ const Hello = () => {
   };
   useEffect(() => {
     getData();
-  }, []);
+  }, [getData]);
   return (
     <div>
       <br />
