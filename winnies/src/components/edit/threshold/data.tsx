@@ -28,24 +28,23 @@ export function GetData() {
       };
     }
 
-    const targetObject = threshold.body.find((i) => (i.EmpName === p?.EmpName));
-    
+    const targetObject = threshold.body.find((i) => i.EmpName === p?.EmpName);
 
     return {
       EmpName: p?.EmpName,
       EmpId: p?.EmpId,
-      Jan: value2Object(targetObject?.Jan),
-      Feb: value2Object(targetObject?.Feb),
-      Mar: value2Object(targetObject?.Mar),
-      Apr: value2Object(targetObject?.Apr),
-      May: value2Object(targetObject?.May),
-      Jun: value2Object(targetObject?.Jun),
-      Jul: value2Object(targetObject?.Jul),
-      Aug: value2Object(targetObject?.Aug),
-      Sep: value2Object(targetObject?.Sep),
-      Oct: value2Object(targetObject?.Oct),
-      Nov: value2Object(targetObject?.Nov),
-      Dec: value2Object(targetObject?.Dec),
+      Jan: value2Object(targetObject?.Jan as string),
+      Feb: value2Object(targetObject?.Feb as string),
+      Mar: value2Object(targetObject?.Mar as string),
+      Apr: value2Object(targetObject?.Apr as string),
+      May: value2Object(targetObject?.May as string),
+      Jun: value2Object(targetObject?.Jun as string),
+      Jul: value2Object(targetObject?.Jul as string),
+      Aug: value2Object(targetObject?.Aug as string),
+      Sep: value2Object(targetObject?.Sep as string),
+      Oct: value2Object(targetObject?.Oct as string),
+      Nov: value2Object(targetObject?.Nov as string),
+      Dec: value2Object(targetObject?.Dec as string),
     };
   });
 

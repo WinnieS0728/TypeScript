@@ -9,7 +9,6 @@ import { GetData } from "./data";
 import { useCallback, useEffect, useState } from "react";
 import { SubmitBtn } from "@/components/UI/buttons";
 import api from "@/lib/api";
-import { SassList } from "sass";
 import { setThreshold } from "@/data/actions/kpi threshold/threshold";
 
 export const ThresholdSettingTable = () => {
@@ -144,7 +143,7 @@ export const ThresholdSettingTable = () => {
       const month = spreadName[2];
 
       setValue(
-        `threshold.${index}.${month}.${type}` as `threshold.${number}.Jan.existCus`,
+        `threshold.${index}.${month}.${type}` as const,
         100 - selectNumber
       );
     },
@@ -200,14 +199,15 @@ export const ThresholdSettingTable = () => {
 
     const p = await postStatus;
     if (p.map((i) => i.status).every((i) => i === "設定新增完成")) {
-      console.log("設定成功");
+      alert('設定成功')
     } else {
-      console.log(
+      alert(
         `${p
           .filter((i) => i.status !== "設定新增完成")
           .map((i) => i.name)
           .join(",")} 設定失敗`
       );
+      
     }
   }
 
