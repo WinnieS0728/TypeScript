@@ -1,4 +1,4 @@
-import { useAppSelector } from "@/hooks/redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { Table } from "@components/table/table";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -10,6 +10,7 @@ import { useCallback, useEffect, useState } from "react";
 import { SubmitBtn } from "@/components/UI/buttons";
 import api from "@/lib/api";
 import { SassList } from "sass";
+import { setThreshold } from "@/data/actions/kpi threshold/threshold";
 
 export const ThresholdSettingTable = () => {
   const salesList = useAppSelector((state) => state.member);
@@ -17,7 +18,15 @@ export const ThresholdSettingTable = () => {
   const nowUser = useAppSelector((state) => state.EmpID);
   const [selected, setSelected] = useState<string>("");
   const [selectNumber, setSelectNumber] = useState<number>(0);
-  const [aa, ss] = useState();
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    for (const item of salesList.body) {
+      dispatch(
+        setThreshold({ year: timeData.thisYear, id: item?.EmpId as string })
+      );
+    }
+  }, []);
 
   const monthAry = [
     "Jan",
@@ -125,15 +134,11 @@ export const ThresholdSettingTable = () => {
         replace(dataSet);
       }
     },
-    [status, replace, salesList]
+    [status]
   );
 
   const go = useCallback(
     function (type: string) {
-      if (selectNumber === 0) {
-        return;
-      }
-
       const spreadName = selected.split(".");
       const index = parseInt(spreadName[1]);
       const month = spreadName[2];
@@ -142,8 +147,6 @@ export const ThresholdSettingTable = () => {
         `threshold.${index}.${month}.${type}` as `threshold.${number}.Jan.existCus`,
         100 - selectNumber
       );
-
-      setSelectNumber(0);
     },
     [selectNumber, selected, setValue]
   );

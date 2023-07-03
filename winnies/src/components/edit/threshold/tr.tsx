@@ -52,6 +52,14 @@ export const TrList = ({
     color: color?.black,
   };
 
+  function handleBlur(e: React.BaseSyntheticEvent) {
+    if (e.target.value === "") {
+      e.target.value = "0";
+    }
+    setSelected("");
+    setSelectNumber(0);
+  }
+
   return (
     <>
       <tr>
@@ -78,11 +86,7 @@ export const TrList = ({
                 e.target.value = "";
                 setSelected(e.target.name);
               }}
-              onBlurCapture={(e) => {
-                if (e.target.value === "") {
-                  e.target.value = "0";
-                }
-              }}
+              onBlurCapture={handleBlur}
             />
             <span style={{ marginLeft: ".2em" }}>%</span>
           </td>
@@ -110,11 +114,7 @@ export const TrList = ({
                 e.target.value = "";
                 setSelected(e.target.name);
               }}
-              onBlurCapture={(e) => {
-                if (e.target.value === "") {
-                  e.target.value = "0";
-                }
-              }}
+              onBlurCapture={handleBlur}
             />
             <span style={{ marginLeft: ".2em" }}>%</span>
           </td>
