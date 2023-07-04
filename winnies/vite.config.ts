@@ -9,6 +9,7 @@ function resolve(dir: string) {
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  base:"./",
   resolve: {
     alias: {
       "@": resolve("src"),

@@ -1,4 +1,4 @@
-import { styled, useTheme } from "styled-components";
+import { styled } from "styled-components";
 import { TfiHarddrive } from "react-icons/tfi";
 
 interface propType {

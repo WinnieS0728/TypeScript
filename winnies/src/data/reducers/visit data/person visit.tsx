@@ -45,10 +45,10 @@ const personVisitSlice = createSlice({
           state.body = data;
         }
       })
-      .addCase(setPersonVisitData.pending, (state, action) => {
+      .addCase(setPersonVisitData.pending, (state) => {
         state.status = statusType.loading;
       })
-      .addCase(setPersonVisitData.rejected, (state, action) => {
+      .addCase(setPersonVisitData.rejected, (state) => {
         state.status = statusType.failed;
         state.body = data;
       });

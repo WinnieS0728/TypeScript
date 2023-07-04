@@ -17,10 +17,10 @@ const salesListSlice = createSlice({
         state.status = statusType.succeeded;
         state.body = action.payload;
       })
-      .addCase(setSalesList.pending, (state, action) => {
+      .addCase(setSalesList.pending, (state) => {
         state.status = statusType.loading;
       })
-      .addCase(setSalesList.rejected, (state, action) => {
+      .addCase(setSalesList.rejected, (state) => {
         state.status = statusType.failed;
         state.body = data;
       });

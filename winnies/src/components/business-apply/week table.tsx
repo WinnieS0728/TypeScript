@@ -174,7 +174,7 @@ export const WeekTable = () => {
 
   return (
     <Table
-      title='業務出差申請比例'
+      title={t('week table.title',{ns:"customRatePage"})}
       filter={<Filter />}
     >
       <table>

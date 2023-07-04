@@ -1,11 +1,11 @@
 {
-  "pageTitle": "業務出差申請佔比",
+  "pageTitle": "Business Trip Application Breakdown",
   "cus type": {
     "exist cus": "Existing customer",
     "new cus": "New customer"
   },
   "sales table": {
-    "title": "每月出差申請數比例",
+    "title": "Monthly Business Trip Application Breakdown",
     "filter label": "sales",
     "filter default": "select sales",
     "type": {
@@ -13,14 +13,14 @@
     }
   },
   "week table": {
-    "title": "業務出差申請比例",
-    "filter label": "申請出差日期",
+    "title": "Sales Business Trip Application ",
+    "filter label": "Business Trip Application Date",
     "thead": {
       "sales": "sales",
-      "total": "預計拜訪店家總數",
-      "atu number": "ATU 店家數",
-      "tire number": "輪胎店 店家數",
-      "rate": "rate"
+      "total": "Estimated Total Shops Visited",
+      "atu number": "Number of ATU",
+      "tire number": "Number of tire shop",
+      "rate": "Percentage"
     }
   }
 }
