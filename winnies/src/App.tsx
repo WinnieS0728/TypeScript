@@ -4,9 +4,8 @@ import { Route, Routes, useSearchParams } from "react-router-dom";
 import { useAppDispatch } from "@hooks/redux";
 import { setSalesList } from "@actions/member/setSalesList";
 import store from "./data/store";
-import { setUser } from "./data/reducers/nowUser";
+import { setUser } from "@actions/member/setUser";
 import TTT from "./pages/test";
-
 
 const CustomRatePage = lazy(() => import("@pages/custom rate"));
 const EditPage = lazy(() => import("@pages/edit/edit"));
@@ -23,9 +22,10 @@ function App() {
 
   const [search] = useSearchParams();
 
-  const EmpID = store.getState().EmpID || search.get("userID");
+  const EmpID = store.getState().nowUser.body.EmpId || search.get("userID");
+
   useEffect(() => {
-    dispatch(setUser(EmpID));
+    dispatch(setUser(EmpID as string));
   }, []);
 
   return (
@@ -36,7 +36,10 @@ function App() {
             index
             element={<CustomRatePage />}
           />
-          <Route path="tra" element={<TTT/>}/>
+          <Route
+            path='tra'
+            element={<TTT />}
+          />
           <Route
             path='setting'
             element={<EditPage />}

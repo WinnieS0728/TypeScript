@@ -1,4 +1,5 @@
 import { monthType } from "@/types";
+import { useTranslation } from "react-i18next";
 import { useTheme } from "styled-components";
 
 interface propsType {
@@ -15,6 +16,7 @@ export const TrList = ({
   setSelected,
   setSelectNumber,
 }: propsType) => {
+  const {t} = useTranslation(['threshold'])
   const color = useTheme();
   const months: monthType[] = [
     "Jan",
@@ -65,7 +67,7 @@ export const TrList = ({
       <tr>
         <td rowSpan={2}>{index + 1}</td>
         <td rowSpan={2}>{field.EmpName}</td>
-        <td>ATU & 既有客戶</td>
+        <td>ATU & {t('type.exist cus',{ns:'threshold'})}</td>
         {months.map((m) => (
           <td
             key={m}
@@ -93,7 +95,7 @@ export const TrList = ({
         ))}
       </tr>
       <tr>
-        <td>新客戶</td>
+        <td>{t('type.new cus',{ns:'threshold'})}</td>
         {months.map((m) => (
           <td
             key={m}

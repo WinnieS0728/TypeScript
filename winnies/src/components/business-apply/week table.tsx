@@ -8,8 +8,10 @@ import { timeDay, timeMonday, timeSunday } from "d3-time";
 import { timeFormat } from "d3";
 import { setWeekVisitData } from "@actions/visit data/set week visit";
 import { GetData } from "./week data";
+import { useTranslation } from "react-i18next";
 
 export const WeekTable = () => {
+  const { t } = useTranslation(["common", "customRatePage"]);
   const timeData = useAppSelector((state) => state.time);
   const color = useTheme();
   const [value, setValue] = useState<string>("");
@@ -109,7 +111,7 @@ export const WeekTable = () => {
             position: "relative",
           }}
         >
-          申請出差日期 :
+          {t("week table.filter label", { ns: "customRatePage" })} :
           <input
             name={"week"}
             style={{
@@ -119,9 +121,8 @@ export const WeekTable = () => {
               color: color?.black,
             }}
             autoComplete='off'
-            placeholder='請選擇日期'
             value={value}
-            onFocus={() => {
+            onClickCapture={() => {
               setShow((prev) => !prev);
             }}
             readOnly
@@ -179,17 +180,25 @@ export const WeekTable = () => {
       <table>
         <thead>
           <tr>
-            <td rowSpan={2}>業務</td>
-            <td rowSpan={2}>預計拜訪店家總數</td>
-            <td colSpan={3}>既有客戶</td>
-            <td colSpan={2}>新客戶</td>
+            <td rowSpan={2}>
+              {t("week table.thead.sales", { ns: "customRatePage" })}
+            </td>
+            <td rowSpan={2}>
+              {t("week table.thead.total", { ns: "customRatePage" })}
+            </td>
+            <td colSpan={3}>
+              {t("cus type.exist cus", { ns: "customRatePage" })}
+            </td>
+            <td colSpan={2}>
+              {t("cus type.new cus", { ns: "customRatePage" })}
+            </td>
           </tr>
           <tr>
-            <td>ATU 店家數</td>
-            <td>輪胎店 店家數</td>
-            <td>比例 %</td>
-            <td>輪胎店 店家數</td>
-            <td>比例 %</td>
+            <td>{t("week table.thead.atu number", { ns: "customRatePage" })}</td>
+            <td>{t("week table.thead.tire number", { ns: "customRatePage" })}</td>
+            <td>{t("week table.thead.rate", { ns: "customRatePage" })}</td>
+            <td>{t("week table.thead.tire number", { ns: "customRatePage" })}</td>
+            <td>{t("week table.thead.rate", { ns: "customRatePage" })}</td>
           </tr>
         </thead>
         <tbody>

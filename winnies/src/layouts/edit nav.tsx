@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import { styled } from "styled-components";
 
@@ -6,6 +7,7 @@ interface propsType {
 }
 
 const Nav = ({ className }: propsType) => {
+  const {t} = useTranslation(['settingPage'])
   return (
     <>
       <nav className={className}>
@@ -16,28 +18,28 @@ const Nav = ({ className }: propsType) => {
               to={"tx"}
               className={"col-auto"}
             >
-              業務TX目標銷售數量
+              {t('nav.tx')}
             </NavLink>
             <NavLink
               end
               to={"threshold"}
               className={"col-auto"}
             >
-              客戶拜訪佔比警示值
+              {t('nav.threshold')}
             </NavLink>
             <NavLink
               end
               to={"store"}
               className={"col-auto"}
             >
-              拜訪店家目標設定
+              {t('nav.store achieve')}
             </NavLink>
             <NavLink
               end
               to={"osom"}
               className={"col-auto"}
             >
-              OSOM項目目標設定
+              {t('nav.osom achieve')}
             </NavLink>
           </ul>
         </div>

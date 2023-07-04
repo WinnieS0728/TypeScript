@@ -13,7 +13,7 @@ const store = configureStore({
   reducer: {
     color: colorReducer,
     time: timeReducer,
-    EmpID: userSlice,
+    nowUser: userSlice,
     member: memberReducer,
     personVisit: personVisitSlice,
     weekVisit: weekVisitSlice,

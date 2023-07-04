@@ -1,0 +1,26 @@
+{
+  "pageTitle": "業務出差申請佔比",
+  "cus type": {
+    "exist cus": "Existing customer",
+    "new cus": "New customer"
+  },
+  "sales table": {
+    "title": "每月出差申請數比例",
+    "filter label": "sales",
+    "filter default": "select sales",
+    "type": {
+      "title": "type"
+    }
+  },
+  "week table": {
+    "title": "業務出差申請比例",
+    "filter label": "申請出差日期",
+    "thead": {
+      "sales": "sales",
+      "total": "預計拜訪店家總數",
+      "atu number": "ATU 店家數",
+      "tire number": "輪胎店 店家數",
+      "rate": "rate"
+    }
+  }
+}

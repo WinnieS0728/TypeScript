@@ -1,16 +1,18 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { Table } from "@components/table/table";
-import { BaseSyntheticEvent, useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { useTheme } from "styled-components";
 import { setPersonVisitData } from "@/data/actions/visit data/set person visit";
 import { GetData } from "./year data";
+import { useTranslation } from "react-i18next";
 
 export const YearTable = () => {
   const color = useTheme();
+  const { t } = useTranslation(["common", "customRatePage"]);
 
   const monthAry = [];
   for (let i = 1; i < 13; i++) {
-    monthAry.push(`${i}月`);
+    monthAry.push(t(`month.${i}`));
   }
 
   const [id, setId] = useState("");
@@ -29,7 +31,7 @@ export const YearTable = () => {
     return (
       <>
         <label style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-          業務 :
+          {t("sales table.filter label", { ns: "customRatePage" })} :
           <select
             onChange={(e) => handleChange(e.target.value)}
             value={id}
@@ -39,9 +41,14 @@ export const YearTable = () => {
               borderRadius: ".5rem",
             }}
           >
-            <option value="default">請選擇</option>
+            <option value='default'>
+              {t("sales table.filter default", { ns: "customRatePage" })}
+            </option>
             {dataSet.map((i) => (
-              <option key={i?.EmpId} value={i?.EmpId}>
+              <option
+                key={i?.EmpId}
+                value={i?.EmpId}
+              >
                 {i?.EmpName}
               </option>
             ))}
@@ -54,11 +61,14 @@ export const YearTable = () => {
   const dataSet = GetData();
 
   return (
-    <Table title="每月出差申請數比例" filter={<Filter />}>
+    <Table
+      title={t("sales table.title", { ns: "customRatePage" })}
+      filter={<Filter />}
+    >
       <table>
         <thead style={{ color: color?.black }}>
           <tr>
-            <td>Type</td>
+            <td>{t("sales table.type.title", { ns: "customRatePage" })}</td>
             {monthAry.map((i) => (
               <td key={i}>{i}</td>
             ))}
@@ -72,13 +82,13 @@ export const YearTable = () => {
             ))}
           </tr>
           <tr>
-            <td>Existing customer</td>
+            <td>{t("cus type.exist cus", { ns: "customRatePage" })}</td>
             {dataSet.existCus.map((i, index) => (
               <td key={index}>{i ? i + "%" : ""}</td>
             ))}
           </tr>
           <tr>
-            <td>New customer</td>
+            <td>{t("cus type.new cus", { ns: "customRatePage" })}</td>
             {dataSet.newCus.map((i, index) => (
               <td key={index}>{i ? i + "%" : ""}</td>
             ))}

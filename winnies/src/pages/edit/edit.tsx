@@ -1,11 +1,13 @@
 import { Header } from "@layouts/header";
 import { Outlet } from "react-router-dom";
 import { Nav } from "@/layouts/edit nav";
+import { useTranslation } from "react-i18next";
 
 const EditPage = () => {
+  const { t } = useTranslation(["settingPage"]);
   return (
     <>
-      <Header title='德國業務KPI設定' />
+      <Header title={t("title")} />
       <Nav />
       <Outlet />
     </>

@@ -10,11 +10,15 @@ import { useCallback, useEffect, useState } from "react";
 import { SubmitBtn } from "@/components/UI/buttons";
 import api from "@/lib/api";
 import { setThreshold } from "@/data/actions/kpi threshold/threshold";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 export const ThresholdSettingTable = () => {
+  const { t } = useTranslation(["common", "threshold", "validation"]);
   const salesList = useAppSelector((state) => state.member);
   const timeData = useAppSelector((state) => state.time);
-  const nowUser = useAppSelector((state) => state.EmpID);
+  const nowUser = useAppSelector((state) => state.nowUser);
+  const nowUser_id = nowUser.body.EmpId
   const [selected, setSelected] = useState<string>("");
   const [selectNumber, setSelectNumber] = useState<number>(0);
 
@@ -69,12 +73,12 @@ export const ThresholdSettingTable = () => {
   const percentSchema = yup.object({
     existCus: yup
       .number()
-      .min(0, "百分比不可小於0")
-      .max(100, "百分比不可大於100"),
+      .min(0, t("threshold.min0", { ns: "validation" }))
+      .max(100, t("threshold.max100", { ns: "validation" })),
     newCus: yup
       .number()
-      .min(0, "百分比不可小於0")
-      .max(100, "百分比不可大於100"),
+      .min(0, t("threshold.min0", { ns: "validation" }))
+      .max(100, t("threshold.max100", { ns: "validation" })),
   });
 
   const monthSchema = yup.object({
@@ -173,7 +177,7 @@ export const ThresholdSettingTable = () => {
       id,
       data,
       checkDataIsExist[index],
-      nowUser
+      nowUser_id
     );
     return res;
   }
@@ -198,22 +202,17 @@ export const ThresholdSettingTable = () => {
     );
 
     const p = await postStatus;
+
     if (p.map((i) => i.status).every((i) => i === "設定新增完成")) {
-      alert('設定成功')
+      toast.success("設定成功");
     } else {
-      alert(
-        `${p
-          .filter((i) => i.status !== "設定新增完成")
-          .map((i) => i.name)
-          .join(",")} 設定失敗`
-      );
-      
+      toast.error(`設定失敗`);
     }
   }
 
   return (
     <>
-      <SubmitBtn text='儲存' />
+      <SubmitBtn text={t("buttons.save")} />
       <Table title='客戶拜訪佔比警示值'>
         <>
           <form
@@ -224,20 +223,20 @@ export const ThresholdSettingTable = () => {
               <thead>
                 <tr>
                   <td>NO.</td>
-                  <td>業務</td>
-                  <td>客戶類別</td>
-                  <td>1月</td>
-                  <td>2月</td>
-                  <td>3月</td>
-                  <td>4月</td>
-                  <td>5月</td>
-                  <td>6月</td>
-                  <td>7月</td>
-                  <td>8月</td>
-                  <td>9月</td>
-                  <td>10月</td>
-                  <td>11月</td>
-                  <td>12月</td>
+                  <td>{t("sales", { ns: "threshold" })}</td>
+                  <td>{t("type.title", { ns: "threshold" })}</td>
+                  <td>{t("month.1")}</td>
+                  <td>{t("month.2")}</td>
+                  <td>{t("month.3")}</td>
+                  <td>{t("month.4")}</td>
+                  <td>{t("month.5")}</td>
+                  <td>{t("month.6")}</td>
+                  <td>{t("month.7")}</td>
+                  <td>{t("month.8")}</td>
+                  <td>{t("month.9")}</td>
+                  <td>{t("month.10")}</td>
+                  <td>{t("month.11")}</td>
+                  <td>{t("month.12")}</td>
                 </tr>
               </thead>
               <tbody>
