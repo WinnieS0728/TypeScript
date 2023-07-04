@@ -60,7 +60,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   // <React.StrictMode>
   <Provider store={store}>
     <Theme>
-      <BrowserRouter basename='/Typescript/winnies/dist/index.html'>
+      <BrowserRouter basename='/TypeScript/winnies/dist/index.html'>
         {/* <LangSetting /> */}
         <App />
         <ToastContainer
