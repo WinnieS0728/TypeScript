@@ -3,11 +3,11 @@ import { Suspense } from "react";
 import { Route, Routes, useSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@hooks/redux";
 import { setSalesList } from "@actions/member/setSalesList";
-import store from "./data/store";
 import { setUser } from "@actions/member/setUser";
 import { useTranslation } from "react-i18next";
 
-const CustomRatePage = lazy(() => import("@pages/custom rate"));
+// const CustomRatePage = lazy(() => import("@pages/custom rate"));
+import CustomRatePage from "@pages/custom rate";
 const EditPage = lazy(() => import("@pages/edit/edit"));
 const Coming = lazy(() => import("@layouts/coming"));
 
@@ -20,15 +20,15 @@ function App() {
 
   const [search] = useSearchParams();
 
-  const EmpID = store.getState().nowUser.body.EmpId || search.get("userID");
+  const EmpID = nowUser.body.EmpId || search.get("userID");   
 
-  const usingLanguage = nowUser.body.Language;
+  const usingLanguage = nowUser.body.Language;  
 
   useEffect(() => {
     dispatch(setSalesList());
     dispatch(setUser(EmpID as string));
     i18n.changeLanguage(usingLanguage);
-  }, [dispatch, EmpID, i18n, usingLanguage]);  
+  }, [dispatch, EmpID, i18n, usingLanguage]);
 
   return (
     <Suspense fallback={<h1>那你網路很慢欸</h1>}>
