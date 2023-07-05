@@ -3,7 +3,7 @@ import App from "./App.tsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-day-picker/dist/style.css";
 import "react-toastify/ReactToastify.css";
-import { HashRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { Provider } from "react-redux";
 import store from "@/data/store";
@@ -63,7 +63,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   // <React.StrictMode>
   <Provider store={store}>
     <Theme>
-      <HashRouter basename={basePath}>
+      <BrowserRouter basename={basePath}>
         {/* <LangSetting /> */}
         <App />
         <ToastContainer
@@ -78,7 +78,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
           pauseOnHover
           theme='colored'
         />
-      </HashRouter>
+      </BrowserRouter>
     </Theme>
   </Provider>
   // </React.StrictMode>,
