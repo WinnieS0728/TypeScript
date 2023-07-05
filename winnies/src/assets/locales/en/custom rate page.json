@@ -20,7 +20,8 @@
       "total": "Estimated Total Shops Visited",
       "atu number": "Number of ATU",
       "tire number": "Number of tire shop",
-      "rate": "Percentage"
+      "rate": "Percentage",
+      "threshold":"Target percentage"
     }
   }
 }

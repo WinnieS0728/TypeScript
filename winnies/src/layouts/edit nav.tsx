@@ -11,38 +11,32 @@ const Nav = ({ className }: propsType) => {
   return (
     <>
       <nav className={className}>
-        <div className='container-fluid'>
-          <ul className='row p-2 gap-2 m-0'>
+          <ul className='p-2 gap-2 m-0'>
             <NavLink
               end
               to={"tx"}
-              className={"col-auto"}
             >
               {t('nav.tx')}
             </NavLink>
             <NavLink
               end
               to={"threshold"}
-              className={"col-auto"}
             >
               {t('nav.threshold')}
             </NavLink>
             <NavLink
               end
               to={"store"}
-              className={"col-auto"}
             >
               {t('nav.store achieve')}
             </NavLink>
             <NavLink
               end
               to={"osom"}
-              className={"col-auto"}
             >
               {t('nav.osom achieve')}
             </NavLink>
           </ul>
-        </div>
       </nav>
     </>
   );

@@ -39,6 +39,12 @@ function App() {
             element={<CustomRatePage />}
           />
           <Route
+            path="test"
+            element={<>
+              <div className="text-center text-5xl text-red-600">123</div>
+            </>}
+          />
+          <Route
             path='setting'
             element={<EditPage />}
           >

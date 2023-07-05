@@ -172,13 +172,17 @@ export const WeekTable = () => {
     return parseInt(num);
   }
 
+  const thresholdStyle = {
+    backgroundColor: color?.threshold_bgc,
+  };
+
   return (
     <Table
-      title={t('week table.title',{ns:"customRatePage"})}
+      title={t("week table.title", { ns: "customRatePage" })}
       filter={<Filter />}
     >
       <table>
-        <thead>
+        <thead style={{ color: color?.black }}>
           <tr>
             <td rowSpan={2}>
               {t("week table.thead.sales", { ns: "customRatePage" })}
@@ -192,13 +196,27 @@ export const WeekTable = () => {
             <td colSpan={2}>
               {t("cus type.new cus", { ns: "customRatePage" })}
             </td>
+            <td
+              colSpan={2}
+              style={thresholdStyle}
+            >
+              {t("week table.thead.threshold", { ns: "customRatePage" })}
+            </td>
           </tr>
           <tr>
-            <td>{t("week table.thead.atu number", { ns: "customRatePage" })}</td>
-            <td>{t("week table.thead.tire number", { ns: "customRatePage" })}</td>
+            <td>
+              {t("week table.thead.atu number", { ns: "customRatePage" })}
+            </td>
+            <td>
+              {t("week table.thead.tire number", { ns: "customRatePage" })}
+            </td>
             <td>{t("week table.thead.rate", { ns: "customRatePage" })}</td>
-            <td>{t("week table.thead.tire number", { ns: "customRatePage" })}</td>
+            <td>
+              {t("week table.thead.tire number", { ns: "customRatePage" })}
+            </td>
             <td>{t("week table.thead.rate", { ns: "customRatePage" })}</td>
+            <td style={thresholdStyle}>{t("cus type.exist cus", { ns: "customRatePage" })}</td>
+            <td style={thresholdStyle}>{t("cus type.new cus", { ns: "customRatePage" })}</td>
           </tr>
         </thead>
         <tbody>
@@ -223,6 +241,8 @@ export const WeekTable = () => {
                 <td>
                   {getPercent(d.visitData.newCus, d.visitData.total) + "%"}
                 </td>
+                <td style={thresholdStyle}>{100 - threshold + "%" || 0}</td>
+                <td style={thresholdStyle}>{threshold + "%" || 0}</td>
               </tr>
             );
           })}

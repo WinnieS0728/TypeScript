@@ -8,11 +8,11 @@ const CustomRatePage = () => {
   return (
     <>
       <Header title={t("pageTitle")} />
-      <div className='container-fluid py-3'>
-        <div className='row mb-3'>
+      <div className='py-3'>
+        <div className='mb-3'>
           <YearTable />
         </div>
-        <div className='row mb-3'>
+        <div className='mb-3'>
           <WeekTable />
         </div>
       </div>

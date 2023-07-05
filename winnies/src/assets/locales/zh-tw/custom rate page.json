@@ -20,7 +20,8 @@
       "total": "預計拜訪店家總數",
       "atu number":"ATU 店家數",
       "tire number":"輪胎店 店家數",
-      "rate":"比例"
+      "rate":"比例",
+      "threshold":"目標值"
     }
   }
 }
