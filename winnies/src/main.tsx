@@ -2,7 +2,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "react-day-picker/dist/style.css";
 import "react-toastify/ReactToastify.css";
-import { BrowserRouter } from "react-router-dom";
+import {  HashRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { Provider } from "react-redux";
 import store from "@/data/store";
@@ -55,14 +55,14 @@ const Theme = ({ children }: { children: JSX.Element }) => {
 //   );
 // };
 const basePath = import.meta.env.VITE_BASEPATH;
-// console.log(basePath);
+console.log(basePath);
 
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   // <React.StrictMode>
   <Provider store={store}>
     <Theme>
-      <BrowserRouter basename={basePath}>
+      <HashRouter>
         {/* <LangSetting /> */}
         <App />
         <ToastContainer
@@ -77,7 +77,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
           pauseOnHover
           theme='colored'
         />
-      </BrowserRouter>
+      </HashRouter>
     </Theme>
   </Provider>
   // </React.StrictMode>,
