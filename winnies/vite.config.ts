@@ -14,7 +14,7 @@ export default ({ mode }) => {
   // https://vitejs.dev/config/
   return defineConfig({
     plugins: [react()],
-    base: basePath,
+    base: './',
     resolve: {
       alias: {
         "@": resolve("src"),
