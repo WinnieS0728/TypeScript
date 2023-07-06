@@ -58,5 +58,5 @@ export function GetData() {
     };
   });
 
-  return salesDataList;
+    return salesDataList;
 }

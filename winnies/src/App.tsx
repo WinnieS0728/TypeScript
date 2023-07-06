@@ -9,9 +9,6 @@ import { useTranslation } from "react-i18next";
 // const CustomRatePage = lazy(() => import("@pages/custom rate"));
 import CustomRatePage from "@pages/custom rate";
 const EditPage = lazy(() => import("@pages/edit/edit"));
-const Coming = lazy(() => import("@layouts/coming"));
-
-const ThresholdPage = lazy(() => import("@pages/edit/threshold"));
 
 function App() {
   const dispatch = useAppDispatch();
@@ -23,7 +20,7 @@ function App() {
   const EmpID = nowUser.body.EmpId || search.get("userID");
 
   const usingLanguage = nowUser.body.Language;
-
+  
   useEffect(() => {
     dispatch(setSalesList());
     dispatch(setUser(EmpID as string));
@@ -39,26 +36,9 @@ function App() {
             element={<CustomRatePage />}
           />
           <Route
-            path='setting'
+            path='setting/*'
             element={<EditPage />}
-          >
-            <Route
-              path='tx'
-              element={<Coming />}
-            />
-            <Route
-              path='threshold'
-              element={<ThresholdPage />}
-            />
-            <Route
-              path='store'
-              element={<Coming />}
-            />
-            <Route
-              path='osom'
-              element={<Coming />}
-            />
-          </Route>
+          />
         </Route>
         <Route
           path='*'

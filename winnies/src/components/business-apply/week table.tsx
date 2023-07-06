@@ -104,7 +104,8 @@ export const WeekTable = () => {
     return (
       <>
         <label
-          className="flex flex-col items-center  gap-2 sm:flex-row"
+          className='relative flex flex-col  items-center gap-2 sm:flex-row'
+          id='joy-ratePage-2'
         >
           {t("week table.filter label", { ns: "customRatePage" })} :
           <input
@@ -176,7 +177,7 @@ export const WeekTable = () => {
       title={t("week table.title", { ns: "customRatePage" })}
       filter={<Filter />}
     >
-      <table>
+      <table id='joy-ratePage-3'>
         <thead style={{ color: color?.black }}>
           <tr>
             <td rowSpan={2}>
@@ -240,7 +241,7 @@ export const WeekTable = () => {
                 <td>
                   {getPercent(d.visitData.newCus, d.visitData.total) + "%"}
                 </td>
-                <td style={thresholdStyle}>{100 - threshold + "%" || 0}</td>
+                <td style={thresholdStyle}> {100 - threshold + "%" || 0}</td>
                 <td style={thresholdStyle}>{threshold + "%" || 0}</td>
               </tr>
             );

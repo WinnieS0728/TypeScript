@@ -7,36 +7,36 @@ interface propsType {
 }
 
 const Nav = ({ className }: propsType) => {
-  const {t} = useTranslation(['settingPage'])
+  const { t } = useTranslation(["settingPage"]);
   return (
     <>
       <nav className={className}>
-          <ul className='p-2 flex gap-2'>
-            <NavLink
-              end
-              to={"tx"}
-            >
-              {t('nav.tx')}
-            </NavLink>
-            <NavLink
-              end
-              to={"threshold"}
-            >
-              {t('nav.threshold')}
-            </NavLink>
-            <NavLink
-              end
-              to={"store"}
-            >
-              {t('nav.store achieve')}
-            </NavLink>
-            <NavLink
-              end
-              to={"osom"}
-            >
-              {t('nav.osom achieve')}
-            </NavLink>
-          </ul>
+        <ul className='flex gap-2 p-2'>
+          <NavLink
+            end
+            to={"tx"}
+          >
+            {t("nav.tx")}
+          </NavLink>
+          <NavLink
+            end
+            to={"threshold"}
+          >
+            {t("nav.threshold")}
+          </NavLink>
+          <NavLink
+            end
+            to={"store"}
+          >
+            {t("nav.store achieve")}
+          </NavLink>
+          <NavLink
+            end
+            to={"osom"}
+          >
+            {t("nav.osom achieve")}
+          </NavLink>
+        </ul>
       </nav>
     </>
   );

@@ -30,7 +30,7 @@ export const YearTable = () => {
 
     return (
       <>
-        <label style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+        <label style={{ display: "flex", gap: "1rem", alignItems: "center" }} id="joy-ratePage-1">
           {t("sales table.filter label", { ns: "customRatePage" })} :
           <select
             onChange={(e) => handleChange(e.target.value)}

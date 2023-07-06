@@ -133,7 +133,9 @@ export const ThresholdSettingTable = () => {
   useEffect(
     function () {
       if (
-        status.filter((i) => i === "succeeded").length === salesList.body.length
+        status.filter((i) => i === "succeeded").length %
+          salesList.body.length ===
+        0
       ) {
         replace(dataSet);
       }
