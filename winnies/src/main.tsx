@@ -2,7 +2,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "react-day-picker/dist/style.css";
 import "react-toastify/ReactToastify.css";
-import {  HashRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { Provider } from "react-redux";
 import store from "@/data/store";
@@ -54,9 +54,6 @@ const Theme = ({ children }: { children: JSX.Element }) => {
 //     </div>
 //   );
 // };
-const basePath = import.meta.env.VITE_BASEPATH;
-console.log(basePath);
-
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   // <React.StrictMode>
