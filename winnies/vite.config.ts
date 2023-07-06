@@ -9,8 +9,6 @@ function resolve(dir: string) {
 export default ({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
-  const basePath = process.env.VITE_BASEPATH
-
   // https://vitejs.dev/config/
   return defineConfig({
     plugins: [react()],
