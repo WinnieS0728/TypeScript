@@ -1,5 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { Table } from "@components/table/table";
+import { Main } from "@layouts/main";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useFieldArray, useForm } from "react-hook-form";
@@ -18,7 +19,7 @@ export const ThresholdSettingTable = () => {
   const salesList = useAppSelector((state) => state.member);
   const timeData = useAppSelector((state) => state.time);
   const nowUser = useAppSelector((state) => state.nowUser);
-  const nowUser_id = nowUser.body.EmpId
+  const nowUser_id = nowUser.body.EmpId;
   const [selected, setSelected] = useState<string>("");
   const [selectNumber, setSelectNumber] = useState<number>(0);
 
@@ -211,50 +212,52 @@ export const ThresholdSettingTable = () => {
   }
 
   return (
-    <>
-      <SubmitBtn text={t("buttons.save")} />
-      <Table title='客戶拜訪佔比警示值'>
-        <>
-          <form
-            id='threshold'
-            onSubmit={handleSubmit(onSubmit as any)}
-          >
-            <table>
-              <thead>
-                <tr>
-                  <td>NO.</td>
-                  <td>{t("sales", { ns: "threshold" })}</td>
-                  <td>{t("type.title", { ns: "threshold" })}</td>
-                  <td>{t("month.1")}</td>
-                  <td>{t("month.2")}</td>
-                  <td>{t("month.3")}</td>
-                  <td>{t("month.4")}</td>
-                  <td>{t("month.5")}</td>
-                  <td>{t("month.6")}</td>
-                  <td>{t("month.7")}</td>
-                  <td>{t("month.8")}</td>
-                  <td>{t("month.9")}</td>
-                  <td>{t("month.10")}</td>
-                  <td>{t("month.11")}</td>
-                  <td>{t("month.12")}</td>
-                </tr>
-              </thead>
-              <tbody>
-                {fields.map((field, index) => (
-                  <TrList
-                    field={field}
-                    index={index}
-                    key={field.id}
-                    register={register}
-                    setSelected={setSelected}
-                    setSelectNumber={setSelectNumber}
-                  />
-                ))}
-              </tbody>
-            </table>
-          </form>
-        </>
-      </Table>
-    </>
+    <Main>
+      <>
+        <SubmitBtn text={t("buttons.save")} />
+        <Table title='客戶拜訪佔比警示值'>
+          <>
+            <form
+              id='threshold'
+              onSubmit={handleSubmit(onSubmit)}
+            >
+              <table>
+                <thead>
+                  <tr>
+                    <td>NO.</td>
+                    <td>{t("sales", { ns: "threshold" })}</td>
+                    <td>{t("type.title", { ns: "threshold" })}</td>
+                    <td>{t("month.1")}</td>
+                    <td>{t("month.2")}</td>
+                    <td>{t("month.3")}</td>
+                    <td>{t("month.4")}</td>
+                    <td>{t("month.5")}</td>
+                    <td>{t("month.6")}</td>
+                    <td>{t("month.7")}</td>
+                    <td>{t("month.8")}</td>
+                    <td>{t("month.9")}</td>
+                    <td>{t("month.10")}</td>
+                    <td>{t("month.11")}</td>
+                    <td>{t("month.12")}</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {fields.map((field, index) => (
+                    <TrList
+                      field={field}
+                      index={index}
+                      key={field.id}
+                      register={register}
+                      setSelected={setSelected}
+                      setSelectNumber={setSelectNumber}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </form>
+          </>
+        </Table>
+      </>
+    </Main>
   );
 };

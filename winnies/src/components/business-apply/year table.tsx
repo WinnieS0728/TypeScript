@@ -61,40 +61,40 @@ export const YearTable = () => {
   const dataSet = GetData();
 
   return (
-    <Table
-      title={t("sales table.title", { ns: "customRatePage" })}
-      filter={<Filter />}
-    >
-      <table>
-        <thead style={{ color: color?.black }}>
-          <tr>
-            <td>{t("sales table.type.title", { ns: "customRatePage" })}</td>
-            {monthAry.map((i) => (
-              <td key={i}>{i}</td>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>ATU</td>
-            {dataSet.atu.map((i, index) => (
-              <td key={index}>{i ? i + "%" : ""}</td>
-            ))}
-          </tr>
-          <tr>
-            <td>{t("cus type.exist cus", { ns: "customRatePage" })}</td>
-            {dataSet.existCus.map((i, index) => (
-              <td key={index}>{i ? i + "%" : ""}</td>
-            ))}
-          </tr>
-          <tr>
-            <td>{t("cus type.new cus", { ns: "customRatePage" })}</td>
-            {dataSet.newCus.map((i, index) => (
-              <td key={index}>{i ? i + "%" : ""}</td>
-            ))}
-          </tr>
-        </tbody>
-      </table>
-    </Table>
+      <Table
+        title={t("sales table.title", { ns: "customRatePage" })}
+        filter={<Filter />}
+      >
+        <table>
+          <thead style={{ color: color?.black }}>
+            <tr>
+              <td>{t("sales table.type.title", { ns: "customRatePage" })}</td>
+              {monthAry.map((i) => (
+                <td key={i}>{i}</td>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ATU</td>
+              {dataSet.atu.map((i, index) => (
+                <td key={index}>{i ? i + "%" : ""}</td>
+              ))}
+            </tr>
+            <tr>
+              <td>{t("cus type.exist cus", { ns: "customRatePage" })}</td>
+              {dataSet.existCus.map((i, index) => (
+                <td key={index}>{i ? i + "%" : ""}</td>
+              ))}
+            </tr>
+            <tr>
+              <td>{t("cus type.new cus", { ns: "customRatePage" })}</td>
+              {dataSet.newCus.map((i, index) => (
+                <td key={index}>{i ? i + "%" : ""}</td>
+              ))}
+            </tr>
+          </tbody>
+        </table>
+      </Table>
   );
 };

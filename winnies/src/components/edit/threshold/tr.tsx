@@ -16,7 +16,7 @@ export const TrList = ({
   setSelected,
   setSelectNumber,
 }: propsType) => {
-  const {t} = useTranslation(['threshold'])
+  const { t } = useTranslation(["threshold"]);
   const color = useTheme();
   const months: monthType[] = [
     "Jan",
@@ -52,6 +52,7 @@ export const TrList = ({
     borderStyle: "solid",
     backgroundColor: color?.white,
     color: color?.black,
+    border: `1px solid ${color?.black}`,
   };
 
   function handleBlur(e: React.BaseSyntheticEvent) {
@@ -67,7 +68,7 @@ export const TrList = ({
       <tr>
         <td rowSpan={2}>{index + 1}</td>
         <td rowSpan={2}>{field.EmpName}</td>
-        <td>ATU & {t('type.exist cus',{ns:'threshold'})}</td>
+        <td>ATU & {t("type.exist cus", { ns: "threshold" })}</td>
         {months.map((m) => (
           <td
             key={m}
@@ -95,7 +96,7 @@ export const TrList = ({
         ))}
       </tr>
       <tr>
-        <td>{t('type.new cus',{ns:'threshold'})}</td>
+        <td>{t("type.new cus", { ns: "threshold" })}</td>
         {months.map((m) => (
           <td
             key={m}

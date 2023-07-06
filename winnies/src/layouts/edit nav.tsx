@@ -11,7 +11,7 @@ const Nav = ({ className }: propsType) => {
   return (
     <>
       <nav className={className}>
-          <ul className='p-2 gap-2 m-0'>
+          <ul className='p-2 flex gap-2'>
             <NavLink
               end
               to={"tx"}

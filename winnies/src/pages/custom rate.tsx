@@ -1,5 +1,7 @@
 import { WeekTable } from "@/components/business-apply/week table";
 import { YearTable } from "@/components/business-apply/year table";
+import { Main } from "@/layouts/main";
+import { Section } from "@/layouts/section";
 import { Header } from "@layouts/header";
 import { useTranslation } from "react-i18next";
 
@@ -8,14 +10,16 @@ const CustomRatePage = () => {
   return (
     <>
       <Header title={t("pageTitle")} />
-      <div className='py-3'>
-        <div className='mb-3'>
-          <YearTable />
-        </div>
-        <div className='mb-3'>
-          <WeekTable />
-        </div>
-      </div>
+      <Main>
+        <>
+          <Section>
+            <YearTable />
+          </Section>
+          <Section>
+            <WeekTable />
+          </Section>
+        </>
+      </Main>
     </>
   );
 };

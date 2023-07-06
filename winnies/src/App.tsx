@@ -20,9 +20,9 @@ function App() {
 
   const [search] = useSearchParams();
 
-  const EmpID = nowUser.body.EmpId || search.get("userID");   
+  const EmpID = nowUser.body.EmpId || search.get("userID");
 
-  const usingLanguage = nowUser.body.Language;  
+  const usingLanguage = nowUser.body.Language;
 
   useEffect(() => {
     dispatch(setSalesList());
@@ -37,12 +37,6 @@ function App() {
           <Route
             index
             element={<CustomRatePage />}
-          />
-          <Route
-            path="test"
-            element={<>
-              <div className="text-center text-5xl text-red-600">123</div>
-            </>}
           />
           <Route
             path='setting'

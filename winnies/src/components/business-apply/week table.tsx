@@ -104,19 +104,14 @@ export const WeekTable = () => {
     return (
       <>
         <label
-          style={{
-            display: "flex",
-            gap: "1rem",
-            alignItems: "center",
-            position: "relative",
-          }}
+          className="flex flex-col items-center  gap-2 sm:flex-row"
         >
           {t("week table.filter label", { ns: "customRatePage" })} :
           <input
             name={"week"}
             style={{
               cursor: "pointer",
-              minWidth: "30ch",
+              minWidth: "27ch",
               backgroundColor: color?.white,
               color: color?.black,
             }}
@@ -215,8 +210,12 @@ export const WeekTable = () => {
               {t("week table.thead.tire number", { ns: "customRatePage" })}
             </td>
             <td>{t("week table.thead.rate", { ns: "customRatePage" })}</td>
-            <td style={thresholdStyle}>{t("cus type.exist cus", { ns: "customRatePage" })}</td>
-            <td style={thresholdStyle}>{t("cus type.new cus", { ns: "customRatePage" })}</td>
+            <td style={thresholdStyle}>
+              {t("cus type.exist cus", { ns: "customRatePage" })}
+            </td>
+            <td style={thresholdStyle}>
+              {t("cus type.new cus", { ns: "customRatePage" })}
+            </td>
           </tr>
         </thead>
         <tbody>

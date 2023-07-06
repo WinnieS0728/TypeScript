@@ -6,7 +6,7 @@ interface propsType {
 export const Header = ({ title }: propsType) => {
   const color = useTheme();
   return (
-    <div
+    <header
       className='header'
       style={{
         backgroundColor: color?.sectionHeader,
@@ -16,6 +16,6 @@ export const Header = ({ title }: propsType) => {
       }}
     >
       {title}
-    </div>
+    </header>
   );
 };
