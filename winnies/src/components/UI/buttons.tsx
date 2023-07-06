@@ -19,7 +19,7 @@ const SubmitBtn = ({ text, className }: propType) => {
 };
 
 const styled_submitBtn = styled(SubmitBtn)`
-    background-color: ${(props) => props.theme.submitBtn};
+    background-color: ${(props) => props.theme.color.submitBtn};
     display: flex;
     justify-content: center;
     align-items: center;

@@ -25,8 +25,8 @@ const styled_Table = styled(Table)`
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background-color: ${(props) => props.theme.sectionHeader};
-        color: ${(props) => props.theme.white};
+        background-color: ${(props) => props.theme.color.sectionHeader};
+        color: ${(props) => props.theme.color.white};
         padding: 0.5rem 1em;
 
         span{

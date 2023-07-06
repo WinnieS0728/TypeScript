@@ -43,16 +43,16 @@ const Nav = ({ className }: propsType) => {
 };
 
 const styled_nav = styled(Nav)`
-    background-color: ${(props) => props.theme.navBgc};
+    background-color: ${(props) => props.theme.color.navBgc};
 
     a {
-        border: 1px solid ${(props) => props.theme.white};
-        color: ${(props) => props.theme.white};
+        border: 1px solid ${(props) => props.theme.color.white};
+        color: ${(props) => props.theme.color.white};
         border-radius: .5rem;
         padding: .2em .5em;
 
         &.active {
-            background-color: ${(props) => props.theme.navActive};
+            background-color: ${(props) => props.theme.color.navActive};
         }
     }
 `;

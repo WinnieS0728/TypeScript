@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 export const WeekTable = () => {
   const { t } = useTranslation(["common", "customRatePage"]);
   const timeData = useAppSelector((state) => state.time);
-  const color = useTheme();
+  const color = useTheme()?.color;
   const [value, setValue] = useState<string>("");
   const [firstTime, setFirstTime] = useState<boolean>(true);
   const [selected, setSelected] = useState<Date>(new Date(timeData.today));

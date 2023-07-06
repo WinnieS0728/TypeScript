@@ -17,7 +17,7 @@ export const TrList = ({
   setSelectNumber,
 }: propsType) => {
   const { t } = useTranslation(["threshold"]);
-  const color = useTheme();
+  const color = useTheme()?.color;
   const months: monthType[] = [
     "Jan",
     "Feb",

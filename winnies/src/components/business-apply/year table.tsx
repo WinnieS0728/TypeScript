@@ -7,7 +7,7 @@ import { GetData } from "./year data";
 import { useTranslation } from "react-i18next";
 
 export const YearTable = () => {
-  const color = useTheme();
+  const color = useTheme()?.color;
   const { t } = useTranslation(["common", "customRatePage"]);
 
   const monthAry = [];
