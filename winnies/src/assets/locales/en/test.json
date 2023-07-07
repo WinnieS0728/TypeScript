@@ -1,8 +1,0 @@
-{
-  "hello": "aloha",
-  "a": "aaa",
-  "b": "bbb",
-  "time": "now time is{{time}}",
-  "apple_one": "i have one apple.",
-  "apple_other": "i have {{count}} apples."
-}

@@ -1,9 +1,0 @@
-{
-  "title": "德國業務KPI設定",
-  "nav": {
-    "tx": "業務TX目標銷售數量",
-    "threshold": "客戶拜訪佔比警示值",
-    "store achieve": "拜訪店家目標設定",
-    "osom achieve": "OSOM項目目標設定"
-  }
-}

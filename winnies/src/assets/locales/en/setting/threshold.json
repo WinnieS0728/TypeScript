@@ -1,9 +1,0 @@
-{
-  "title": "客戶拜訪佔比警示值",
-  "sales": "sales",
-  "type": {
-    "title": "custom type",
-    "exist cus": "existing customer",
-    "new cus": "new customer"
-  }
-}

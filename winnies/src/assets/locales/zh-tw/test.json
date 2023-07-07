@@ -1,8 +1,0 @@
-{
-  "hello": "你好",
-  "a": "中文的a",
-  "b": "中文的b",
-  "time": "現在時間是{{time}}",
-  "apple_one": "只有一個蘋果",
-  "apple_other": "變出 {{count}} 個蘋果"
-}
