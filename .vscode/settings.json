@@ -3,11 +3,10 @@
   "i18nJsonEditor.forceKeyUPPERCASE": false,
   "i18nJsonEditor.supportedFolders": ["i18n", "locales"],
   "i18nJsonEditor.workspaceFolders": [
-    { "name": "common", "path": "winnies/src/assets/locales/common" },
-    { "name": "joyride", "path": "winnies/src/assets/locales/joyride" },
-    { "name": "custom rate page", "path": "winnies/src/assets/locales/custom rate page" },
-    { "name": "setting page", "path": "winnies/src/assets/locales/setting page" },
-    { "name": "threshold", "path": "winnies/src/assets/locales/threshold" },
-
+    { "name": "common", "path": "src/assets/locales/common" },
+    { "name": "joyride", "path": "src/assets/locales/joyride" },
+    { "name": "custom rate page", "path": "src/assets/locales/custom rate page" },
+    { "name": "setting page", "path": "src/assets/locales/setting page" },
+    { "name": "threshold", "path": "src/assets/locales/threshold" },
   ]
 }
