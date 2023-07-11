@@ -2,12 +2,11 @@ import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { Table } from "@components/table/table";
 import { Main } from "@layouts/main";
 import { yupResolver } from "@hookform/resolvers/yup";
-
 import { useFieldArray, useForm } from "react-hook-form";
 import { TrList } from "./tr";
 import * as yup from "yup";
 import { GetData } from "./data";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SubmitBtn } from "@/components/UI/buttons";
 import api from "@/lib/api";
 import { setThreshold } from "@/data/actions/kpi threshold/threshold";
@@ -21,6 +20,7 @@ export const ThresholdSettingTable = () => {
   const nowUser_id = nowUser.body.EmpId;
   const [selected, setSelected] = useState<string>("");
   const [selectNumber, setSelectNumber] = useState<number>(0);
+  const isDataSet = useRef(false);
 
   const dataSet = GetData().dataSet;
   const status = GetData().status;
@@ -104,34 +104,30 @@ export const ThresholdSettingTable = () => {
   }
 
   useEffect(() => {
+    if (isDataSet.current) {
+      return;
+    }
     if (status === "succeeded") {
       replace(dataSet);
+      isDataSet.current = true;
     }
-  }, [status, replace]);
-
-  const go = useCallback(
-    function (type: string) {
-      const spreadName = selected.split(".");
-      const index = parseInt(spreadName[1]);
-      const month = spreadName[2];
-
-      setValue(
-        `threshold.${index}.${month}.${type}` as any,
-        100 - selectNumber
-      );
-    },
-    [selectNumber, selected, setValue]
-  );
+  }, [status, replace, dataSet]);
 
   useEffect(() => {
+    let type;
     if (selected.endsWith("existCus")) {
       // console.log("修改既有客戶");
-      go("newCus");
+      type = "newCus";
     } else if (selected.endsWith("newCus")) {
       // console.log("修改新客戶");
-      go("existCus");
+      type = "existCus";
     }
-  }, [selected, go]);
+    const spreadName = selected.split(".");
+    const index = parseInt(spreadName[1]);
+    const month = spreadName[2];
+
+    setValue(`threshold.${index}.${month}.${type}` as any, 100 - selectNumber);
+  }, [selected, setValue, selectNumber]);
 
   async function sendApiRequest(
     index: number,

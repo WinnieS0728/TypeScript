@@ -116,6 +116,7 @@ export const TrList = ({
                 setSelected(e.target.name);
               }}
               onBlurCapture={handleBlur}
+              tabIndex={-1}
             />
             <span style={{ marginLeft: ".2em" }}>%</span>
           </td>
