@@ -4,8 +4,8 @@ import type { responseType } from "types/api";
 
 export const setThreshold = createAsyncThunk(
   "threshold/setThreshold",
-  async (d: { year: string; id?: string }) => {
-    const res: responseType[] = await api.thresHold.fetch(d.year, d.id);
+  async (year: string) => {
+    const res: responseType[] = await api.threshold.fetch(year);
     return res;
   }
 );

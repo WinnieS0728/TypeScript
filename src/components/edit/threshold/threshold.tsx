@@ -15,22 +15,21 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 export const ThresholdSettingTable = () => {
-  const { t } = useTranslation(["common", "threshold", "validation"]);
-  const salesList = useAppSelector((state) => state.member);
+  const { t } = useTranslation(["common", "validation"]);
   const timeData = useAppSelector((state) => state.time);
   const nowUser = useAppSelector((state) => state.nowUser);
   const nowUser_id = nowUser.body.EmpId;
   const [selected, setSelected] = useState<string>("");
   const [selectNumber, setSelectNumber] = useState<number>(0);
 
+  const dataSet = GetData().dataSet;
+  const status = GetData().status;
+  const dataExist = GetData().dataExist;
+
   const dispatch = useAppDispatch();
   useEffect(() => {
-    for (const item of salesList.body) {
-      dispatch(
-        setThreshold({ year: timeData.thisYear, id: item?.EmpId as string })
-      );
-    }
-  }, []);
+    dispatch(setThreshold(timeData.thisYear));
+  }, [dispatch, timeData]);
 
   const monthAry = [
     "Jan",
@@ -46,30 +45,8 @@ export const ThresholdSettingTable = () => {
     "Nov",
     "Dec",
   ];
-  interface dataType {
-    existCus: number;
-    newCus: number;
-  }
 
-  const initData = salesList.body.map((p) => {
-    const defaultObject: dataType = {
-      existCus: 0,
-      newCus: 0,
-    };
-
-    const fineObject: {
-      [keys: string]: typeof defaultObject;
-    } = {};
-    for (const m of monthAry) {
-      fineObject[`${m}`] = defaultObject;
-    }
-
-    return {
-      EmpName: p?.EmpName,
-      EmpId: p?.EmpId,
-      ...fineObject,
-    };
-  });
+  const initData = dataSet;
 
   const percentSchema = yup.object({
     existCus: yup
@@ -113,7 +90,7 @@ export const ThresholdSettingTable = () => {
     mode: "onChange",
     resolver: yupResolver(schema),
     defaultValues: {
-      threshold: initData as any,
+      threshold: initData,
     },
   });
 
@@ -126,22 +103,11 @@ export const ThresholdSettingTable = () => {
     console.log(errors);
   }
 
-  const dataSet = GetData().dataSet;
-  const status = GetData().status;
-  const dataExist = GetData().dataExist;
-
-  useEffect(
-    function () {
-      if (
-        status.filter((i) => i === "succeeded").length %
-          salesList.body.length ===
-        0
-      ) {
-        replace(dataSet);
-      }
-    },
-    [status]
-  );
+  useEffect(() => {
+    if (status === "succeeded") {
+      replace(dataSet);
+    }
+  }, [status, replace]);
 
   const go = useCallback(
     function (type: string) {
@@ -150,7 +116,7 @@ export const ThresholdSettingTable = () => {
       const month = spreadName[2];
 
       setValue(
-        `threshold.${index}.${month}.${type}` as const,
+        `threshold.${index}.${month}.${type}` as any,
         100 - selectNumber
       );
     },
@@ -175,7 +141,7 @@ export const ThresholdSettingTable = () => {
     }
   ) {
     const checkDataIsExist = await dataExist;
-    const res = api.thresHold.post(
+    const res = api.threshold.post(
       timeData.thisYear,
       id,
       data,
@@ -186,9 +152,7 @@ export const ThresholdSettingTable = () => {
   }
 
   async function onSubmit(d: { threshold: any }) {
-    // console.log(d);
     const data = d.threshold;
-    // console.log(data);
 
     const postStatus = Promise.all(
       data.map(async (d: any, index: number) => {
@@ -227,8 +191,8 @@ export const ThresholdSettingTable = () => {
                 <thead>
                   <tr>
                     <td>NO.</td>
-                    <td>{t("sales", { ns: "threshold" })}</td>
-                    <td>{t("type.title", { ns: "threshold" })}</td>
+                    <td>業務</td>
+                    <td>類別</td>
                     <td>{t("month.1")}</td>
                     <td>{t("month.2")}</td>
                     <td>{t("month.3")}</td>

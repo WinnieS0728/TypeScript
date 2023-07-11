@@ -39,14 +39,9 @@ export function GetData() {
   }
 
   const dispatch = useAppDispatch();
-  useEffect(
-    function () {
-      salesData.body.map((i) => {
-        dispatch(setThreshold({ year: timeData.thisYear, id: i?.EmpId }));
-      });
-    },
-    [dispatch, salesData, timeData]
-  );
+  useEffect(() => {
+    dispatch(setThreshold(timeData.thisYear));
+  }, [dispatch, salesData, timeData]);
   // console.log(threshold.body);
 
   const salesDataList = salesData.body.map((i) => {
@@ -58,5 +53,5 @@ export function GetData() {
     };
   });
 
-    return salesDataList;
+  return salesDataList;
 }

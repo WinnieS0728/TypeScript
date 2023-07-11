@@ -4,28 +4,26 @@ import { responseType, statusType } from "types/api";
 
 const data: responseType[] = [];
 
-const statusArray: statusType[] = [];
-
 const thresholdSlice = createSlice({
   name: "threshold",
   initialState: {
     body: data,
-    status: statusArray,
+    status: statusType.idle,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(setThreshold.fulfilled, (state, action) => {
-        state.status.push(statusType.succeeded);
+        state.status = statusType.succeeded;
         if (action.payload) {
-          state.body.push(action.payload[0]);
+          state.body = action.payload;
         }
       })
       .addCase(setThreshold.pending, (state) => {
-        state.status.push(statusType.loading);
+        state.status = statusType.loading;
       })
       .addCase(setThreshold.rejected, (state) => {
-        state.status.push(statusType.failed);
+        state.status = statusType.failed;
         state.body = data;
       });
   },

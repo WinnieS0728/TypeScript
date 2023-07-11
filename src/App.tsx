@@ -6,8 +6,7 @@ import { setSalesList } from "@actions/member/setSalesList";
 import { setUser } from "@actions/member/setUser";
 import { useTranslation } from "react-i18next";
 
-// const CustomRatePage = lazy(() => import("@pages/custom rate"));
-import CustomRatePage from "@pages/custom rate";
+const CustomRatePage = lazy(() => import("@pages/custom rate"));
 const EditPage = lazy(() => import("@pages/edit/edit"));
 
 function App() {
@@ -20,7 +19,7 @@ function App() {
   const EmpID = nowUser.body.EmpId || search.get("userID");
 
   const usingLanguage = nowUser.body.Language;
-  
+
   useEffect(() => {
     dispatch(setSalesList());
     dispatch(setUser(EmpID as string));

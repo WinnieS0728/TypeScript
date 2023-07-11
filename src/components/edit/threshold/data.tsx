@@ -1,24 +1,8 @@
 import { useAppSelector } from "@/hooks/redux";
-import api from "@/lib/api";
 
 export function GetData() {
   const salesList = useAppSelector((state) => state.member);
   const threshold = useAppSelector((state) => state.threshold);
-  const timeData = useAppSelector((state) => state.time);
-
-  const dataExist = Promise.all(
-    salesList.body.map(async (i) => {
-      const res = await api.thresHold.fetch(
-        timeData.thisYear,
-        i?.EmpId as string
-      );
-      if (res) {
-        return true;
-      } else {
-        return false;
-      }
-    })
-  );
 
   const data = salesList.body.map((p) => {
     function value2Object(value: string) {
@@ -48,11 +32,15 @@ export function GetData() {
     };
   });
 
+  const dataExist = salesList.body.map((p) => {
+    return threshold.body.some((d) => d.Empid === p?.EmpId);
+  });
+
   const status = threshold.status;
   // console.log({ data });
   return {
     dataSet: data,
     status: status,
-    dataExist,
+    dataExist: dataExist,
   };
 }

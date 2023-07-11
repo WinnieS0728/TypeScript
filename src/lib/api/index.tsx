@@ -10,7 +10,7 @@ const api = {
   getMember: getMemberList(apiPath),
   getVisitData: getVisitData(apiPath),
   getTripEvent: getTripEvent(apiPath),
-  thresHold: { fetch: GetThresHold(apiPath), post: SetThresHold(apiPath) },
+  threshold: { fetch: GetThresHold(apiPath), post: SetThresHold(apiPath) },
 };
 
 export default api;
