@@ -163,6 +163,8 @@ export default {
       fuchsia: colors.fuchsia,
       pink: colors.pink,
       rose: colors.rose,
+      primary: "#ffa500",
+      primaryHover: "#ff7a00",
     }),
     columns: {
       auto: "auto",

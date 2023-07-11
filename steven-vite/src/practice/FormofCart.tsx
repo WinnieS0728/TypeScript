@@ -1,5 +1,5 @@
 import { useForm, useFieldArray, useWatch, Control } from "react-hook-form";
-
+import Toggle from "./Toggle";
 type FormValues = {
   name: string;
   price: number;
@@ -35,6 +35,7 @@ export default function FormofCart() {
 
   return (
     <div>
+      <Toggle></Toggle>
       <div className="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4 zIndex-10">
         <div className="shrink-0">
           <img className="h-12 w-12" src="/img/logo.svg" alt="ChitChat Logo" />
@@ -72,6 +73,7 @@ export default function FormofCart() {
             placeholder="description"
           ></textarea>
         </div>
+
         {fields.map((field, index) => {
           return (
             <div key={field.id} className="mb-2">
@@ -85,7 +87,14 @@ export default function FormofCart() {
                   {...register(`carts.${index}.name` as const, {
                     required: true,
                   })}
-                  className={errors?.carts?.[index]?.name ? "error" : ""}
+                  className={`mt-10 block
+                  w-full
+                  rounded-md
+                  border-gray-300
+                  shadow-sm
+                  focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 ${
+                    errors?.carts?.[index]?.name ? "error" : ""
+                  }`}
                 />
                 <input
                   placeholder="quantity"
@@ -94,7 +103,14 @@ export default function FormofCart() {
                     valueAsNumber: true,
                     required: true,
                   })}
-                  className={errors?.carts?.[index]?.quantity ? "error" : ""}
+                  className={`mt-10 block
+                  w-full
+                  rounded-md
+                  border-gray-300
+                  shadow-sm
+                  focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 ${
+                    errors?.carts?.[index]?.quantity ? "error" : ""
+                  }`}
                 />
                 <input
                   placeholder="value"
@@ -103,9 +119,14 @@ export default function FormofCart() {
                     valueAsNumber: true,
                     required: true,
                   })}
-                  className={
-                    errors?.carts?.[index]?.price ? "error" : "form-input"
-                  }
+                  className={`mt-10 block
+                  w-full
+                  rounded-md
+                  border-gray-300
+                  shadow-sm
+                  focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 ${
+                    errors?.carts?.[index]?.price ? "error" : ""
+                  }`}
                 />
                 <button
                   type="button"
@@ -118,7 +139,7 @@ export default function FormofCart() {
             </div>
           );
         })}
-        <input type="submit" className="me-2"/>
+        <input type="submit" className="me-2" />
         <button
           type="button"
           className="btn-blue"
