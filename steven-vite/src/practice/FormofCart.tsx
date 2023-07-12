@@ -1,9 +1,7 @@
 import { useForm, useFieldArray, useWatch, Control } from "react-hook-form";
 import Toggle from "./Toggle";
 type FormValues = {
-  name: string;
-  price: number;
-  quantity: number;
+  [propsName: string]: string;
 }[];
 type AllFormValues = {
   cusName: string;
@@ -11,7 +9,6 @@ type AllFormValues = {
   desc: string;
   carts: FormValues;
 };
-
 export default function FormofCart() {
   const {
     register,
@@ -23,7 +20,7 @@ export default function FormofCart() {
       cusName: "Steven",
       age: "18",
       desc: "test",
-      carts: [{ name: "test", quantity: 1, price: 23 }],
+      carts: [{ name: "test", quantity: "", price: "" }],
     },
     mode: "onBlur",
   });
@@ -84,9 +81,12 @@ export default function FormofCart() {
                 <input
                   type="text"
                   placeholder="name"
-                  {...register(`carts.${index}.name` as const, {
-                    required: true,
-                  })}
+                  {...register(
+                    `carts.${index}.name` as `carts.${number}.${string}`,
+                    {
+                      required: true,
+                    }
+                  )}
                   className={`mt-10 block
                   w-full
                   rounded-md
@@ -99,10 +99,13 @@ export default function FormofCart() {
                 <input
                   placeholder="quantity"
                   type="number"
-                  {...register(`carts.${index}.quantity` as const, {
-                    valueAsNumber: true,
-                    required: true,
-                  })}
+                  {...register(
+                    `carts.${index}.quantity` as `carts.${number}.${string}`,
+                    {
+                      valueAsNumber: true,
+                      required: true,
+                    }
+                  )}
                   className={`mt-10 block
                   w-full
                   rounded-md
@@ -115,14 +118,17 @@ export default function FormofCart() {
                 <input
                   placeholder="value"
                   type="number"
-                  {...register(`carts.${index}.price` as const, {
-                    valueAsNumber: true,
-                    required: true,
-                  })}
+                  {...register(
+                    `carts.${index}.price` as `carts.${number}.${string}`,
+                    {
+                      valueAsNumber: true,
+                      required: true,
+                    }
+                  )}
                   className={`mt-10 block
                   w-full
                   rounded-md
-                  border-gray-300
+                  border-gray-300s
                   shadow-sm
                   focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 ${
                     errors?.carts?.[index]?.price ? "error" : ""
@@ -146,8 +152,8 @@ export default function FormofCart() {
           onClick={() =>
             append({
               name: "",
-              quantity: 0,
-              price: 0,
+              quantity: "",
+              price: "",
             })
           }
         >

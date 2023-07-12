@@ -41,6 +41,7 @@ const SalesVisit = () => {
       .toString()
       .padStart(2, "0")}`;
   }
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
     const { name, value } = e.target;
     setSalesVisit((prev) => ({
@@ -48,13 +49,14 @@ const SalesVisit = () => {
       [name]: value,
     }));
   }
+
   useEffect(() => {
     async function getSalesVisitData(data: SalesVisitInput) {
       try {
         const res = await axios.post(
           "https://orangeapi.orange-electronic.com/api/GetSalesVisit",
           {
-            ...salesVisit,
+            ...data,
             Startdt: getMonday(
               new Date(salesVisit.Startdt)
             ).toLocaleDateString(),
