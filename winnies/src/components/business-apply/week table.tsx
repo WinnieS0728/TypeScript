@@ -1,21 +1,22 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { Table } from "@components/table/table";
 import { getWeek, isSunday, isValid } from "date-fns";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { DayPicker } from "react-day-picker";
 import { useTheme } from "styled-components";
 import { timeDay, timeMonday, timeSunday } from "d3-time";
 import { timeFormat } from "d3";
 import { setWeekVisitData } from "@actions/visit data/set week visit";
 import { GetData } from "./week data";
+import { useTranslation } from "react-i18next";
 
 export const WeekTable = () => {
-  const salesList = useAppSelector((state) => state.member);
+  const { t } = useTranslation(["common", "customRatePage"]);
   const timeData = useAppSelector((state) => state.time);
-  const color = useTheme();
+  const color = useTheme()?.color;
   const [value, setValue] = useState<string>("");
-  const [selected, setSelected] = useState<Date>(new Date(timeData.today));
   const [firstTime, setFirstTime] = useState<boolean>(true);
+  const [selected, setSelected] = useState<Date>(new Date(timeData.today));
 
   const Filter = () => {
     const [month, setMonth] = useState<Date>();
@@ -103,26 +104,21 @@ export const WeekTable = () => {
     return (
       <>
         <label
-          style={{
-            display: "flex",
-            gap: "1rem",
-            alignItems: "center",
-            position: "relative",
-          }}
+          className='relative flex flex-col  items-center gap-2 sm:flex-row'
+          id='joy-ratePage-2'
         >
-          申請出差日期 :
+          {t("week table.filter label", { ns: "customRatePage" })} :
           <input
             name={"week"}
             style={{
               cursor: "pointer",
-              minWidth: "30ch",
+              minWidth: "27ch",
               backgroundColor: color?.white,
               color: color?.black,
             }}
             autoComplete='off'
-            placeholder='請選擇日期'
             value={value}
-            onClick={() => {
+            onClickCapture={() => {
               setShow((prev) => !prev);
             }}
             readOnly
@@ -160,62 +156,96 @@ export const WeekTable = () => {
   const visitData = GetData();
   // console.log(visitData);
 
-  function getNumber(name: string, key: string): number {
-    const num = visitData.find((d) => d.name === name)?.visitData[key];
+  function getPercent(d1: number, d2: number): number {
+    const percent = parseInt(((d1 / d2) * 100).toFixed(0));
+    return percent ? percent : 0;
+  }
 
-    return num as number;
+  function getKpiThreshold(d: any) {
+    const month = selected.toLocaleString("en", { month: "short" });
+    const num = d.threshold?.[month];
+
+    return parseInt(num);
   }
-  function getPercent(d1: number, d2: number): string {
-    const percent = d2 ? ((d1 / d2) * 100).toFixed(0) : "0";
-    return percent;
-  }
+
+  const thresholdStyle = {
+    backgroundColor: color?.threshold_bgc,
+  };
 
   return (
     <Table
-      title='業務出差申請比例'
+      title={t("week table.title", { ns: "customRatePage" })}
       filter={<Filter />}
     >
-      <table>
-        <thead>
+      <table id='joy-ratePage-3'>
+        <thead style={{ color: color?.black }}>
           <tr>
-            <td rowSpan={2}>業務</td>
-            <td rowSpan={2}>預計拜訪店家總數</td>
-            <td colSpan={3}>既有客戶</td>
-            <td colSpan={2}>新客戶</td>
+            <td rowSpan={2}>
+              {t("week table.thead.sales", { ns: "customRatePage" })}
+            </td>
+            <td rowSpan={2}>
+              {t("week table.thead.total", { ns: "customRatePage" })}
+            </td>
+            <td colSpan={3}>
+              {t("cus type.exist cus", { ns: "customRatePage" })}
+            </td>
+            <td colSpan={2}>
+              {t("cus type.new cus", { ns: "customRatePage" })}
+            </td>
+            <td
+              colSpan={2}
+              style={thresholdStyle}
+            >
+              {t("week table.thead.threshold", { ns: "customRatePage" })}
+            </td>
           </tr>
           <tr>
-            <td>ATU 店家數</td>
-            <td>輪胎店 店家數</td>
-            <td>比例 %</td>
-            <td>輪胎店 店家數</td>
-            <td>比例 %</td>
+            <td>
+              {t("week table.thead.atu number", { ns: "customRatePage" })}
+            </td>
+            <td>
+              {t("week table.thead.tire number", { ns: "customRatePage" })}
+            </td>
+            <td>{t("week table.thead.rate", { ns: "customRatePage" })}</td>
+            <td>
+              {t("week table.thead.tire number", { ns: "customRatePage" })}
+            </td>
+            <td>{t("week table.thead.rate", { ns: "customRatePage" })}</td>
+            <td style={thresholdStyle}>
+              {t("cus type.exist cus", { ns: "customRatePage" })}
+            </td>
+            <td style={thresholdStyle}>
+              {t("cus type.new cus", { ns: "customRatePage" })}
+            </td>
           </tr>
         </thead>
         <tbody>
-          {salesList.body.map((i) => (
-            <tr
-              key={i?.EmpId}
-              // style={{ backgroundColor: color?.error_table }}
-            >
-              <td>{i?.EmpName}</td>
-              <td>{getNumber(i?.EmpName as string, "total")}</td>
-              <td>{getNumber(i?.EmpName as string, "atu")}</td>
-              <td>{getNumber(i?.EmpName as string, "existCus")}</td>
-              <td>
-                {getPercent(
-                  getNumber(i?.EmpName as string, "old"),
-                  getNumber(i?.EmpName as string, "total")
-                ) + "%"}
-              </td>
-              <td>{getNumber(i?.EmpName as string, "newCus")}</td>
-              <td>
-                {getPercent(
-                  getNumber(i?.EmpName as string, "newCus"),
-                  getNumber(i?.EmpName as string, "total")
-                ) + "%"}
-              </td>
-            </tr>
-          ))}
+          {visitData.map((d, index) => {
+            const threshold = getKpiThreshold(d);
+            const isBad =
+              getPercent(d.visitData.newCus, d.visitData.total) > threshold;
+
+            return (
+              <tr
+                key={index}
+                style={{
+                  backgroundColor: isBad ? color?.error_table : "transparent",
+                }}
+              >
+                <td>{d.name}</td>
+                <td>{d.visitData.total}</td>
+                <td>{d.visitData.atu}</td>
+                <td>{d.visitData.existCus}</td>
+                <td>{getPercent(d.visitData.old, d.visitData.total) + "%"}</td>
+                <td>{d.visitData.newCus}</td>
+                <td>
+                  {getPercent(d.visitData.newCus, d.visitData.total) + "%"}
+                </td>
+                <td style={thresholdStyle}> {100 - threshold + "%" || 0}</td>
+                <td style={thresholdStyle}>{threshold + "%" || 0}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </Table>

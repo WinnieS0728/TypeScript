@@ -3,6 +3,7 @@ import api from "@api/index";
 import type { responseType } from "types/api";
 
 const salesMemberList = [
+  // "223001",
   "ER221002",
   "ER221003",
   "ER222003",

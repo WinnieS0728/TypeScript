@@ -2,20 +2,30 @@ import { useTheme } from "styled-components";
 
 interface propsType {
   title: string;
+  showJoyride?: boolean;
+  joyrideStart?: () => void;
 }
-export const Header = ({ title }: propsType) => {
-  const color = useTheme();
+export const Header = ({ title, showJoyride, joyrideStart }: propsType) => {
+  const color = useTheme()?.color;
+
   return (
-    <div
-      className='header'
+    <header
+      className={`flex items-center justify-between p-2 text-xl`}
       style={{
         backgroundColor: color?.sectionHeader,
         color: color?.white,
-        padding: ".5em",
-        fontSize: "1.25rem",
       }}
     >
       {title}
-    </div>
+      {showJoyride && <button
+        type='button'
+        className='m-0 aspect-square w-8 rounded-full bg-yellow-500 p-0'
+        onClick={() => {
+          joyrideStart && joyrideStart();
+        }}
+      >
+        ?
+      </button>}
+    </header>
   );
 };

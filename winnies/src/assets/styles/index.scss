@@ -3,15 +3,20 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  // color-scheme: light dark;
+  // color: rgba(255, 255, 255, 0.87);
+  // background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  @media (prefers-color-scheme:light){
+    color: #213547;
+    background-color: #ffffff;
+  }
 }
 
 * {
@@ -48,16 +53,8 @@ button {
 button:hover {
   border-color: #646cff;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
 
 @media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
   a:hover {
     color: #747bff;
   }
@@ -72,7 +69,6 @@ table {
 
   thead {
     background-color: #b2b2b2;
-    color: #f6f6f6;
   }
 
   :is(th, td) {
@@ -88,8 +84,6 @@ table {
 }
 
 input {
-  padding: 0.1em 0.3em;
-
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;
