@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 
 const CustomRatePage = () => {
   const { t } = useTranslation(["customRatePage", "joyride"]);
-  const [JoyActive, setJoyActive] = useState(false);  
+  const [JoyActive, setJoyActive] = useState(false);
   const steps = [
     {
       title: t("ratePage.step1.title", { ns: "joyride" }),
@@ -26,7 +26,7 @@ const CustomRatePage = () => {
   ];
 
   <button
-    type='button'
+    type="button"
     className="className='m-0 w-8' aspect-square rounded-full bg-yellow-500 p-0"
     onClick={() => {
       setJoyActive(true);
